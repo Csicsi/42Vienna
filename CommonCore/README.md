@@ -1,5 +1,4 @@
-## Libft
-[![dcsicsak's 42 Libft Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3623787)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft)
+- **Libft**: [![dcsicsak's 42 Libft Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3623787)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft)
 
 ## ft_printf
 [![dcsicsak's 42 ft_printf Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3635368)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/ft_printf)
