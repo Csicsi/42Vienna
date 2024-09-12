@@ -5,7 +5,7 @@
   </tr>
   <tr>
     <td><strong>Libft</strong></td>
-    <td>[![dcsicsak's 42 Libft Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3623787)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft)</td>
+    <td> [![dcsicsak's 42 Libft Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3623787)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft) </td>
   </tr>
   <tr>
     <td><strong>ft_printf</strong></td>
