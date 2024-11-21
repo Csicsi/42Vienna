@@ -1,3 +1,6 @@
 [submodule "CommonCore/minishell"]
 	path = CommonCore/minishell
 	url = git@github.com:Csicsi/minishell.git
+[submodule "CommonCore/cub3d"]
+	path = CommonCore/cub3d
+	url = git@github.com:cseriildi/cub3d.git
