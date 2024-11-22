@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcsicsak <dcsicsak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:18:20 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/20 13:23:02 by dcsicsak         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:16:40 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-#include <semaphore.h>
-
 typedef struct s_philosopher
 {
 	int				id;
 	long			last_meal;
-	long			meals_eaten;
+	int				meals_eaten;
 	long			delay;
 	struct s_data	*data;
 	pid_t			pid;
+	bool			terminate;
+	sem_t			*lock;
 }				t_philosopher;
 
 typedef struct s_data
@@ -48,6 +48,9 @@ typedef struct s_data
 	sem_t			*forks;
 	sem_t			*print_lock;
 	sem_t			*state_lock;
+	sem_t			*full;
+	sem_t			*dead;
+	sem_t			*kill;
 	t_philosopher	*philo;
 	pid_t			*pids;
 	bool			simulation_running;
