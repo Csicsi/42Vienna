@@ -6,7 +6,7 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:18:20 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/22 16:16:40 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/24 14:55:00 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_data
 	sem_t			*kill;
 	t_philosopher	*philo;
 	pid_t			*pids;
-	bool			simulation_running;
 }				t_data;
 
 

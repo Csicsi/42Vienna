@@ -6,13 +6,13 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 08:54:56 by dcsicsak          #+#    #+#             */
-/*   Updated: 2024/11/22 17:46:04 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/24 15:14:31 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-int	is_number(char *str)
+int		is_number(char *str)
 {
 	int	i;
 
@@ -213,38 +213,31 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
-static sem_t	*create_semaphore(char *name, int value)
-{
-	sem_unlink(name);
-	return (sem_open(name, O_CREAT, 0644, value));
-}
-
 void	handle_error(char *err)
 {
 	write(2, err, ft_strlen(err));
 }
 
-void	cleanup_semaphores(t_data *data)
+void cleanup_semaphores(t_data *data)
 {
-	sem_close(data->forks);
-	sem_close(data->print_lock);
-	sem_close(data->state_lock);
-	sem_close(data->full);
-	sem_close(data->dead);
-	sem_close(data->kill);
+	if (data->forks)
+		sem_close(data->forks);
+	if (data->print_lock)
+		sem_close(data->print_lock);
+	if (data->state_lock)
+		sem_close(data->state_lock);
+	if (data->full)
+		sem_close(data->full);
+	if (data->dead)
+		sem_close(data->dead);
+	if (data->kill)
+		sem_close(data->kill);
 	sem_unlink("/forks");
 	sem_unlink("/print_lock");
 	sem_unlink("/state_lock");
 	sem_unlink("/full");
 	sem_unlink("/dead");
 	sem_unlink("/kill");
-}
-
-void print_semaphore_value(sem_t *sem, const char *sem_name)
-{
-	int	value;
-	sem_getvalue(sem, &value);
-	printf("Semaphore %s value: %d\n", sem_name, value);
 }
 
 int sleep_for(long time_in_ms, t_philosopher *philo)
@@ -269,9 +262,8 @@ int sleep_for(long time_in_ms, t_philosopher *philo)
 void print_status(t_philosopher *philo, char *status)
 {
 	sem_wait(philo->data->print_lock);
-	if (philo->data->simulation_running)
-		printf("%ld %d %s\n", get_time_in_ms() - philo->data->start_time,
-			philo->id, status);
+	printf("%ld %d %s\n", get_time_in_ms() - philo->data->start_time,
+		philo->id, status);
 	sem_post(philo->data->print_lock);
 }
 
@@ -292,7 +284,7 @@ void *check_death(void *arg)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
-	while (philo->data->simulation_running)
+	while (1)
 	{
 		if (get_time_in_ms() - philo->last_meal > philo->data->time_to_die)
 		{
@@ -377,6 +369,7 @@ void philo_routine(t_philosopher *philo)
 	pthread_join(monitoring_thread, NULL);
 	pthread_join(kill_thread, NULL);
 }
+
 void start_philo_processes(t_data *data)
 {
 	int	i;
@@ -462,70 +455,103 @@ void wait_processes(t_data *data)
 	free(data->pids);
 }
 
-int main(int argc, char **argv)
+int	validate_args(int argc, char **argv, t_data *data)
 {
-	t_data		data;
-	size_t		temp;
-	pthread_t	monitor_thread;
-	int			i;
+	size_t	temp;
 
 	if (validate_input(argc, argv))
 		return (1);
 	if (!ft_validate_number(argv[1], &temp) || temp == 0)
 		return (handle_error("Error: Invalid number of philosophers\n"), 1);
-	data.num_philos = temp;
+	data->num_philos = temp;
 	if (!ft_validate_number(argv[2], &temp))
 		return (handle_error("Error: Invalid time to die\n"), 1);
-	data.time_to_die = temp;
+	data->time_to_die = temp;
 	if (!ft_validate_number(argv[3], &temp))
 		return (handle_error("Error: Invalid time to eat\n"), 1);
-	data.time_to_eat = temp;
+	data->time_to_eat = temp;
 	if (!ft_validate_number(argv[4], &temp))
 		return (handle_error("Error: Invalid time to sleep\n"), 1);
-	data.time_to_sleep = temp;
-	data.simulation_running = true;
-	data.start_time = get_time_in_ms();
+	data->time_to_sleep = temp;
 	if (argc == 6 && ft_validate_number(argv[5], &temp))
-		data.meals_required = temp;
+		data->meals_required = temp;
 	else
-		data.meals_required = -1;
-	if (data.num_philos % 2 == 1)
-		data.time_to_think = data.time_to_eat - data.time_to_sleep
-			+ data.time_to_eat / (float)(data.num_philos / 2);
+		data->meals_required = -1;
+	return (0);
+}
+
+int initialize_simulation(int argc, char **argv, t_data *data)
+{
+	int i;
+
+	data->forks = NULL;
+	data->print_lock = NULL;
+	data->state_lock = NULL;
+	data->full = NULL;
+	data->dead = NULL;
+	data->kill = NULL;
+
+	if (validate_args(argc, argv, data))
+		return (1);
+
+	data->start_time = get_time_in_ms();
+
+	if (data->num_philos % 2 == 1)
+		data->time_to_think = data->time_to_eat - data->time_to_sleep
+			+ data->time_to_eat / (float)(data->num_philos / 2);
 	else
-		data.time_to_think = data.time_to_eat - data.time_to_sleep;
-	data.simulation_running = true;
-	data.forks = create_semaphore("/forks", data.num_philos);
-	data.print_lock = create_semaphore("/print_lock", 1);
-	data.state_lock = create_semaphore("/state_lock", 1);
-	data.full = create_semaphore("/full", 0);
-	data.dead = create_semaphore("/dead", 0);
-	data.kill = create_semaphore("/kill", 0);
-	if (!data.forks || !data.print_lock || !data.state_lock
-		|| !data.full || !data.dead || !data.kill)
-		return (handle_error("Error: Failed to initialize semaphores\n"), 1);
-	data.philo = malloc(sizeof(t_philosopher) * data.num_philos);
-	if (!data.philo)
-		return (cleanup_semaphores(&data),
-			handle_error("Error: Memory allocation failure\n"), 1);
-	i = 0;
-	while (i < data.num_philos)
+		data->time_to_think = data->time_to_eat - data->time_to_sleep;
+
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->num_philos);
+	data->print_lock = sem_open("/print_lock", O_CREAT, 0644, 1);
+	data->state_lock = sem_open("/state_lock", O_CREAT, 0644, 1);
+	data->full = sem_open("/full", O_CREAT, 0644, 0);
+	data->dead = sem_open("/dead", O_CREAT, 0644, 0);
+	data->kill = sem_open("/kill", O_CREAT, 0644, 0);
+
+	if (!data->forks || !data->print_lock || !data->state_lock
+		|| !data->full || !data->dead || !data->kill)
 	{
-		data.philo[i].id = i + 1;
-		data.philo[i].meals_eaten = 0;
-		data.philo[i].last_meal = data.start_time;
-		data.philo[i].data = &data;
-		data.philo[i].terminate = false;
-		data.philo[i].delay = 0;
-		data.philo[i].lock = NULL;
-		i++;
+		cleanup_semaphores(data);
+		handle_error("Error: Failed to initialize semaphores\n");
+		return (1);
 	}
+
+	data->philo = malloc(sizeof(t_philosopher) * data->num_philos);
+	if (!data->philo)
+	{
+		cleanup_semaphores(data);
+		handle_error("Error: Memory allocation failure\n");
+		return (1);
+	}
+
+	for (i = 0; i < data->num_philos; i++)
+	{
+		data->philo[i].id = i + 1;
+		data->philo[i].meals_eaten = 0;
+		data->philo[i].last_meal = data->start_time;
+		data->philo[i].data = data;
+		data->philo[i].terminate = false;
+		data->philo[i].delay = 0;
+		data->philo[i].lock = NULL;
+	}
+
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data		data;
+	pthread_t	monitor_thread;
+	int			i;
+
+	if (initialize_simulation(argc, argv, &data))
+		return (1);
 	pthread_create(&monitor_thread, NULL, monitor, &data);
 	start_philo_processes(&data);
 	i = -1;
 	while (++i < data.num_philos)
 		sem_wait(data.full);
-	data.simulation_running = false;
 	i = -1;
 	while (++i < data.num_philos)
 		sem_post(data.kill);
@@ -536,3 +562,4 @@ int main(int argc, char **argv)
 	free(data.philo);
 	return (0);
 }
+
