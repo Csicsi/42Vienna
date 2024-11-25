@@ -6,7 +6,7 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:18:20 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/24 14:55:00 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/25 16:49:27 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_philosopher
 	struct s_data	*data;
 	pid_t			pid;
 	bool			terminate;
-	sem_t			*lock;
+	sem_t			*terminate_lock;
+	char			terminate_sem_name[32];
 }				t_philosopher;
 
 typedef struct s_data
