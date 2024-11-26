@@ -6,7 +6,7 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:18:20 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/25 16:49:27 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/26 04:58:50 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ typedef struct s_data
 	t_philosopher	*philo;
 	pid_t			*pids;
 }				t_data;
-
 
 #endif
