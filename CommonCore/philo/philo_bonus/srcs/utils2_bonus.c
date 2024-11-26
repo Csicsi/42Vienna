@@ -6,7 +6,7 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 06:28:13 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/26 06:45:16 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:49:08 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	wait_processes(t_data *data)
 		i++;
 	}
 	free(data->pids);
+	data->pids = NULL;
 }
 
 void	cleanup_resources(t_philosopher *philo,

@@ -6,7 +6,7 @@
 /*   By: csicsi <csicsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 06:22:55 by csicsi            #+#    #+#             */
-/*   Updated: 2024/11/26 06:24:56 by csicsi           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:49:33 by csicsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	cleanup_semaphores(t_data *data)
 {
 	int	i;
 
+	if (data->pids)
+		wait_processes(data);
 	close_and_unlink_semaphore(&data->forks, "/forks");
 	close_and_unlink_semaphore(&data->print_lock, "/print_lock");
 	close_and_unlink_semaphore(&data->state_lock, "/state_lock");
