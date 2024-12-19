@@ -11,10 +11,10 @@
 | 🧠 [**Exam Rank 03**]()    | [![dcsicsak's 42 Exam Rank 03 Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3838059)](https://github.com/Nimon77/badge42) |
 | 🍽️ [**Philosophers**](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/philo)    | [![dcsicsak's 42 Philosophers Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3872058)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/philo) |
 | 🐚 [**minishell**]()      | [![dcsicsak's 42 minishell Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3872059)](https://github.com/Nimon77/badge42) |
-|  🧠 [**Exam Rank 04**]()   | |
-|  🌐 [**NetPractice**]()       | |
-|  🕹️ [**cub3d**]()             | |
-|  🖥️ [**CPP Module 00**]()     | |
+|  🧠 [**Exam Rank 04**]()   | [![dcsicsak's 42 Exam Rank 04 Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/4049492)](https://github.com/Nimon77/badge42)|
+|  🌐 [**NetPractice**]()       |[![dcsicsak's 42 NetPractice Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/4061911)](https://github.com/Nimon77/badge42) |
+|  🕹️ [**cub3d**](https://github.com/cseriildi/cub3d)             |[![dcsicsak's 42 cub3d Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/4052337)](https://github.com/cseriildi/cub3d) |
+|  🖥️ [**CPP Module 00**]()     | [![dcsicsak's 42 CPP Module 00 Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/4061913)](https://github.com/Nimon77/badge42)|
 |  🖥️ [**CPP Module 01**]()     | |
 |  🖥️ [**CPP Module 02**]()     | |
 |  🖥️ [**CPP Module 03**]()     | |
