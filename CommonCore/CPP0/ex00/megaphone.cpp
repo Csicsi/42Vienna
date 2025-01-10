@@ -10,8 +10,7 @@ int	main(int argc, char **argv)
 	}
 	for (int i = 1; i < argc; i++)
 	{
-		if (i > 1 && argv[i][0] && argv[i][0] != ' '
-			&& argv[i - 1][0] != ' ')
+		if (i > 1  && argv[i][0])
 			std::cout << " ";
 		for (int j = 0; argv[i][j]; j++)
 			std::cout << (char)toupper(argv[i][j]);
