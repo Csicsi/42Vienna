@@ -40,8 +40,8 @@ void PhoneBook::searchContacts() const {
 	}
 
 	std::cout << "Enter index to view details: ";
-	std::cin >> index;
-	std::cin.ignore();
+	std::wcin >> index;
+	std::wcin.ignore();
 	if (index < 0 || index >= 8 || contacts[index].isEmpty()) {
 		std::cout << "Invalid index!" << std::endl;
 		return;

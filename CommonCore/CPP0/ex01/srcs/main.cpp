@@ -7,7 +7,7 @@ int main() {
 	while (true) {
 		std::cout << "Enter a command (ADD, SEARCH, EXIT): ";
 		if (!std::getline(std::cin, command)) {
-			std::cin.clear();
+			std::wcin.clear();
 			std::wcin.ignore(0, '\n');
 			std::freopen("/dev/tty", "r", stdin);
 			std::cout << "\n";
