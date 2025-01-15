@@ -5,7 +5,7 @@ int main() {
 	std::string	command;
 
 	while (true) {
-		std::cout << "Enter a command (ADD, SEARCH, EXIT): ";
+		std::cerr << "Enter a command (ADD, SEARCH, EXIT): ";
 		if (!std::getline(std::cin, command)) {
 			std::cin.clear();
 			std::cin.ignore(0, '\n');
@@ -20,7 +20,7 @@ int main() {
 		else if (command == "EXIT")
 			break;
 		else
-			std::cout << "Invalid command!" << std::endl;
+			std::cerr << "Invalid command!" << std::endl;
 	}
 	return 0;
 }
