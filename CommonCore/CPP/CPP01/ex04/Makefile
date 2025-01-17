@@ -1,9 +1,8 @@
-NAME = zombie
+NAME = replace
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = srcs/Zombie.cpp srcs/newZombie.cpp srcs/randomChump.cpp srcs/main.cpp
-
+SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

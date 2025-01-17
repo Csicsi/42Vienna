@@ -16,3 +16,7 @@ void HumanB::attack() {
 void HumanB::setWeapon(Weapon &weapon) {
 	this->weapon = &weapon;
 }
+
+void HumanB::unsetWeapon() {
+	this->weapon = NULL;
+}

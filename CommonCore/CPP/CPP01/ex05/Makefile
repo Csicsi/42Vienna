@@ -1,9 +1,8 @@
-NAME = zombie
+NAME = harl
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
 
-SRCS = srcs/Zombie.cpp srcs/newZombie.cpp srcs/randomChump.cpp srcs/main.cpp
-
+SRCS = srcs/main.cpp srcs/Harl.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

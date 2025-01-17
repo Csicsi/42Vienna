@@ -35,33 +35,35 @@ int main()
 		HumanA alice("Alice", rubberChicken);
 		HumanB bob("Bob");
 
-		alice.attack(); // Alice attacks with their rubber chicken
-		bob.attack();   // Bob has no weapon to attack with
+		alice.attack();
+		bob.attack();
 
 		bob.setWeapon(baguette);
-		bob.attack(); // Bob attacks with their baguette
+		bob.attack();
 
 		rubberChicken.setType("golden rubber chicken with +3 charisma");
-		alice.attack(); // Alice attacks with their golden rubber chicken with +3 charisma
-
+		alice.attack();
 		bob.setWeapon(spoonOfDoom);
-		bob.attack(); // Bob attacks with their spoon of doom
+		bob.attack();
 
 		Weapon unusedWeapon = Weapon("mystical toothpick of destiny");
 		bob.setWeapon(oversizedPillow);
-		bob.attack(); // Bob attacks with their oversized pillow
+		bob.attack();
 
-		alice.attack(); // Alice attacks with their golden rubber chicken with +3 charisma
+		alice.attack();
 
 		bob.setWeapon(nerfGun);
-		bob.attack(); // Bob attacks with their nerf gun loaded with foam rockets
+		bob.attack();
 
 		dadJokeBook.setType("dad joke book filled with puns");
 		bob.setWeapon(dadJokeBook);
-		bob.attack(); // Bob attacks with their dad joke book filled with puns
+		bob.attack();
+
+		bob.unsetWeapon();
+		bob.attack();
 
 		bob.setWeapon(ancientFloppyDisk);
-		bob.attack(); // Bob attacks with their ancient floppy disk with 1.44MB of pure rage
+		bob.attack();
 
 		//HumanA eve("Eve", NULL);
 	}
