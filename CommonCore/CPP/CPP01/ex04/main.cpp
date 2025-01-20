@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-void replaceAndWrite(const std::string& inputFilename,
+void replace(const std::string& inputFilename,
 	const std::string& s1, const std::string& s2) {
 	std::ifstream inputFile(inputFilename.c_str());
 	if (!inputFile) {
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	replaceAndWrite(inputFilename, s1, s2);
+	replace(inputFilename, s1, s2);
 
 	return 0;
 }
