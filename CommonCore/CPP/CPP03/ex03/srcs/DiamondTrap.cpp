@@ -5,7 +5,7 @@ DiamondTrap::DiamondTrap() : ClapTrap("Default_clap_name"),
 	this->_hitPoints = FragTrap::_hitPoints;
 	this->_energyPoints = ScavTrap::_energyPoints;
 	this->_attackDamage = FragTrap::_attackDamage;
-	std::cout << "Default DiamondTrap created!" << std::endl;
+	std::cout << "DiamondTrap default constructor called" << std::endl;
 }
 
 DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_name"),
@@ -13,7 +13,7 @@ DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_name"),
 	this->_hitPoints = FragTrap::_hitPoints;
 	this->_energyPoints = ScavTrap::_energyPoints;
 	this->_attackDamage = FragTrap::_attackDamage;
-	std::cout << "DiamondTrap " << _name << " created!" << std::endl;
+	std::cout << "DiamondTrap name constructor called" << std::endl;
 }
 
 DiamondTrap::DiamondTrap(const DiamondTrap &other) {
@@ -33,9 +33,10 @@ DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other) {
 }
 
 DiamondTrap::~DiamondTrap() {
-	std::cout << "DiamondTrap " << _name << " destroyed!" << std::endl;
+	std::cout << "DiamondTrap destructor called" << std::endl;
 }
 
 void DiamondTrap::whoAmI(void) {
-	std::cout << "DiamondTrap name: " << _name << ", ClapTrap name: " << ClapTrap::_name << std::endl;
+	std::cout << "DiamondTrap name: " << _name << ", ClapTrap name: "
+		<< ClapTrap::_name << std::endl;
 }
