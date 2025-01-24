@@ -1,16 +1,16 @@
 #include "../includes/ScavTrap.hpp"
 
 ScavTrap::ScavTrap() : ClapTrap("ScavTrap") {
-	this->_hitPoints = 100;
-	this->_energyPoints = 50;
-	this->_attackDamage = 20;
+	_hitPoints = 100;
+	_energyPoints = 50;
+	_attackDamage = 20;
 	std::cout << "ScavTrap default constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
-	this->_hitPoints = 100;
-	this->_energyPoints = 50;
-	this->_attackDamage = 20;
+	_hitPoints = 100;
+	_energyPoints = 50;
+	_attackDamage = 20;
 	std::cout << "ScavTrap name constructor called" << std::endl;
 }
 
@@ -34,11 +34,21 @@ ScavTrap::~ScavTrap() {
 	std::cout << "ScavTrap destructor called" << std::endl;
 }
 
+void ScavTrap::attack(std::string const &target) {
+	if (_hitPoints > 0 && _energyPoints > 0) {
+		_energyPoints--;
+		std::cout << "ScavTrap " << _name << " attacks " << target
+			<< ", causing " << _attackDamage << " points of damage!" << std::endl;
+	} else {
+		std::cout << "ScavTrap " << _name << " cannot attack!" << std::endl;
+	}
+}
+
 void ScavTrap::guardGate() {
 	if (_hitPoints > 0 && _energyPoints > 0) {
 		_energyPoints--;
 		std::cout << "ScavTrap " << _name << " has entered in Gate keeper mode!" << std::endl;
 	} else {
-		std::cout << "ScavTrap " << _name << " Cannot guard gate!" << std::endl;
+		std::cout << "ScavTrap " << _name << " cannot guard gate!" << std::endl;
 	}
 }

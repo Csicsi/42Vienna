@@ -1,6 +1,6 @@
 #include "../includes/ClapTrap.hpp"
 
-ClapTrap::ClapTrap() : _name("NoName"), _hitPoints(10),
+ClapTrap::ClapTrap() : _name("ClapTrap"), _hitPoints(10),
 	_energyPoints(10), _attackDamage(0) {
 	std::cout << "ClapTrap default constructor called" << std::endl;
 }
@@ -16,7 +16,8 @@ ClapTrap::ClapTrap(const ClapTrap &other) {
 }
 
 ClapTrap &ClapTrap::operator=(const ClapTrap &other) {
-	std::cout << "ClapTrap assignation operator called" << std::endl;
+	std::cout << "ClapTrap assignation operator called"
+		<< std::endl;
 	if (this != &other) {
 		_name = other._name;
 		_hitPoints = other._hitPoints;
@@ -34,27 +35,35 @@ void ClapTrap::attack(std::string const &target) {
 	if (_hitPoints > 0 && _energyPoints > 0) {
 	_energyPoints--;
 	std::cout << "ClapTrap " << _name << " attacks " << target
-		<< ", causing " << _attackDamage << " points of damage!" << std::endl;
+		<< ", causing " << _attackDamage
+			<< " points of damage!" << std::endl;
 	} else {
-		std::cout << "ClapTrap " << _name << " Cannot attack!" << std::endl;
+		std::cout << "ClapTrap " << _name << " cannot attack!"
+			<< std::endl;
 	}
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
-	std::cout << "ClapTrap " << _name << " takes " << amount
-		<< " points of damage!" << std::endl;
-	_hitPoints -= amount;
-	if (_hitPoints < 0)
-		std::cout << "ClapTrap " << _name << " is dead!" << std::endl;
+	if (amount >= _hitPoints) {
+		_hitPoints = 0;
+		std::cout << "ClapTrap " << _name << " has died!"
+			<< std::endl;
+	} else {
+		_hitPoints -= amount;
+		std::cout << "ClapTrap " << _name << " takes "
+			<< amount << " points of damage!" << std::endl;
+	}
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
-	if (_energyPoints > 0) {
+	if (_energyPoints > 0 && _hitPoints > 0) {
 		_energyPoints--;
-		std::cout << "ClapTrap " << _name << " is repaired for " << amount
-			<< " points!" << std::endl;
+		std::cout << "ClapTrap " << _name << " is repaired for "
+			<< amount << " points!" << std::endl;
 		_hitPoints += amount;
 	} else {
-		std::cout << "ClapTrap " << _name << " Cannot be repaired!" << std::endl;
+		std::cout << "ClapTrap " << _name << " cannot be repaired!"
+			<< std::endl;
 	}
 }
+
