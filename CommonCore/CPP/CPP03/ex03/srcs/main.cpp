@@ -8,6 +8,8 @@ int main() {
 		diamondTrapDefault.takeDamage(30);
 		diamondTrapDefault.beRepaired(20);
 		diamondTrapDefault.whoAmI();
+		diamondTrapDefault.guardGate();
+		diamondTrapDefault.highFivesGuys();
 	}
 
 	std::cout << "\n***Testing name constructor***" << std::endl;
@@ -16,6 +18,8 @@ int main() {
 	diamondTrapName.takeDamage(50);
 	diamondTrapName.beRepaired(30);
 	diamondTrapName.whoAmI();
+	diamondTrapName.guardGate();
+	diamondTrapName.highFivesGuys();
 	diamondTrapName.takeDamage(200); // DiamondTrapName has died!
 	diamondTrapName.whoAmI(); // DiamondTrapName cannot high five!
 
@@ -26,6 +30,8 @@ int main() {
 	diamondTrapCopy.takeDamage(40);
 	diamondTrapCopy.beRepaired(25);
 	diamondTrapCopy.whoAmI();
+	diamondTrapCopy.guardGate();
+	diamondTrapCopy.highFivesGuys();
 
 	std::cout << "\n***Testing assignation operator***" << std::endl;
 	DiamondTrap diamondTrapAssignation;
@@ -34,13 +40,19 @@ int main() {
 	diamondTrapAssignation.takeDamage(30);
 	diamondTrapAssignation.beRepaired(15);
 	diamondTrapAssignation.whoAmI();
+	diamondTrapAssignation.guardGate();
+	diamondTrapAssignation.highFivesGuys();
 
 	std::cout << "\n***Testing insufficient energy points***" << std::endl;
 	DiamondTrap diamondTrapEnergy("DiamondTrapEnergy");
 	diamondTrapEnergy.whoAmI();
-	for (int i = 0; i < 100; i++) {
+	diamondTrapEnergy.guardGate();
+	diamondTrapEnergy.highFivesGuys();
+	for (int i = 0; i < 98; i++) {
 		diamondTrapEnergy.attack("target");
 	} // Deplete all energy points
+	diamondTrapEnergy.guardGate(); // Should fail due to no energy
+	diamondTrapEnergy.highFivesGuys(); // Should fail due to no energy
 	diamondTrapEnergy.attack("target"); // Should fail due to no energy
 	diamondTrapEnergy.beRepaired(10); // Should fail due to no energy
 
@@ -48,8 +60,12 @@ int main() {
 	DiamondTrap diamondTrapOverkill("DiamondTrapOverkill");
 	diamondTrapOverkill.takeDamage(150); // Should "kill" the DiamondTrap
 	diamondTrapOverkill.whoAmI(); // Should fail as it's "dead"
+	diamondTrapOverkill.guardGate(); // Should fail as it's "dead"
+	diamondTrapOverkill.highFivesGuys(); // Should fail as it's "dead"
+	diamondTrapOverkill.attack("target"); // Should fail as it's "dead"
 
 	std::cout << "\n***Destructor messages***" << std::endl;
 
 	return 0;
 }
+
