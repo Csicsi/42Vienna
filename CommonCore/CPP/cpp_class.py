@@ -24,14 +24,13 @@ def generate_hpp_file(class_name, attributes, includes_dir):
 
 {includes}
 class {class_name} {{
+private:
+	{attributes_str};
 public:
 	{class_name}();
 	~{class_name}();
 	{class_name}(const {class_name} &other);
 	{class_name} &operator=(const {class_name} &other);
-
-private:
-	{attributes_str};
 }};
 
 #endif
