@@ -1,10 +1,9 @@
-NAME = animal
+NAME = character
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -g
+CFLAGS = -g -Wall -Wextra -Werror -std=c++98 -Iincludes
 
-SRCS = srcs/main.cpp srcs/Animal.cpp srcs/Dog.cpp srcs/Brain.cpp\
-	srcs/Cat.cpp srcs/WrongAnimal.cpp srcs/WrongCat.cpp
-
+SRCS = srcs/main.cpp srcs/AMateria.cpp srcs/Ice.cpp srcs/Cure.cpp\
+	srcs/MateriaSource.cpp srcs/Character.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

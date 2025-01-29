@@ -1,6 +1,6 @@
 NAME = animal
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -g
 
 SRCS = srcs/main.cpp srcs/Animal.cpp srcs/Dog.cpp srcs/Brain.cpp\
 	srcs/Cat.cpp srcs/WrongAnimal.cpp srcs/WrongCat.cpp

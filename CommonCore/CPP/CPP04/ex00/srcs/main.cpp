@@ -7,27 +7,38 @@
 
 int main()
 {
-const Animal* meta = new Animal();
-const Animal* j = new Dog();
-const Animal* i = new Cat();
-const WrongAnimal* wrong = new WrongAnimal();
-const WrongAnimal* wrongCat = new WrongCat();
-std::cout << j->getType() << " " << std::endl;
-std::cout << i->getType() << " " << std::endl;
-i->makeSound(); //will output the cat sound!
-j->makeSound();
-meta->makeSound();
+	{
+		const Animal* animal = new Animal();
+		const Animal* dog = new Dog();
+		const Animal* cat = new Cat();
+		std::cout << dog->getType() << " " << std::endl;
+		std::cout << cat->getType() << " " << std::endl;
+		dog->makeSound(); //will output the cat sound!
+		cat->makeSound();
+		animal->makeSound();
 
-std::cout << wrong->getType() << " " << std::endl;
-std::cout << wrongCat->getType() << " " << std::endl;
-wrong->makeSound();
-wrongCat->makeSound();
+		delete animal;
+		delete dog;
+		delete cat;
+	}
 
-delete meta;
-delete j;
-delete i;
-delete wrong;
-delete wrongCat;
+	const WrongAnimal* wrongAnimal = new WrongAnimal();
+	const WrongAnimal* wrongCat = new WrongCat();
+	const WrongCat* wrongCat2 = new WrongCat();
 
-return 0;
+	std::cout << wrongAnimal->getType() << " " << std::endl;
+	std::cout << wrongCat->getType() << " " << std::endl;
+	std::cout << wrongCat2->getType() << " " << std::endl;
+
+	wrongAnimal->makeSound();
+	std::cout << "This should be an animal sound: ";
+	wrongCat->makeSound();
+	std::cout << "This should be a cat sound: ";
+	wrongCat2->makeSound();
+
+	delete wrongAnimal;
+	delete wrongCat;
+	delete wrongCat2;
+
+	return 0;
 }
