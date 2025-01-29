@@ -8,7 +8,7 @@ Ice::~Ice() {
 	std::cout << "Ice destructor called" << std::endl;
 }
 
-Ice::Ice(const Ice &other) {
+Ice::Ice(const Ice &other) : AMateria("ice") {
 	std::cout << "Ice copy constructor called" << std::endl;
 	*this = other;
 }

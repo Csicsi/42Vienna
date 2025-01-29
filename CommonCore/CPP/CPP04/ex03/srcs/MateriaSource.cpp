@@ -8,7 +8,7 @@ MateriaSource::MateriaSource() {
 
 MateriaSource::~MateriaSource() {
 	std::cout << "MateriaSource destructor called" << std::endl;
-	//_deleteMateria();
+	_deleteMateria();
 }
 
 MateriaSource::MateriaSource(const MateriaSource &other) {
