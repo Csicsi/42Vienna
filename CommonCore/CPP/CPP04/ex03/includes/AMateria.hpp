@@ -11,11 +11,6 @@ protected:
 private:
 	static AMateria* _head;
 	AMateria* _next;
-	struct MateriaNode {
-		AMateria* materia;
-		MateriaNode* next;
-	};
-	static MateriaNode* _unequippedHead;
 public:
 	AMateria();
 	AMateria(std::string const &type);
@@ -29,9 +24,8 @@ public:
 
 	static void* operator new(size_t size);
 	static void operator delete(void* ptr);
+	static void addToList(AMateria* materia);
 	static void cleanup();
-	static void addToUnequippedList(AMateria* materia);
-	static void cleanupUnequipped();
 };
 
 #endif

@@ -1,7 +1,6 @@
 #include "AMateria.hpp"
 
 AMateria* AMateria::_head = NULL;
-AMateria::MateriaNode *AMateria::_unequippedHead = NULL;
 
 AMateria::AMateria() : _next(NULL) {
 	std::cout << "AMateria default constructor called" << std::endl;
@@ -71,7 +70,6 @@ void AMateria::operator delete(void* ptr) {
 }
 
 void AMateria::cleanup() {
-	cleanupUnequipped();
 	while (_head) {
 		AMateria* tmp = _head;
 		_head = _head->_next;
@@ -80,23 +78,7 @@ void AMateria::cleanup() {
 	std::cout << "All AMateria instances freed" << std::endl;
 }
 
-void AMateria::addToUnequippedList(AMateria* materia) {
-	if (!materia) return;
-
-	MateriaNode* newNode = new MateriaNode;
-	newNode->materia = materia;
-	newNode->next = _unequippedHead;
-	_unequippedHead = newNode;
-
-	std::cout << materia->getType() << " added to unequipped list" << std::endl;
-}
-
-void AMateria::cleanupUnequipped() {
-	while (_unequippedHead) {
-		MateriaNode* temp = _unequippedHead;
-		_unequippedHead = _unequippedHead->next;
-		delete temp->materia;
-		delete temp;
-	}
-	std::cout << "All unequipped Materia freed" << std::endl;
+void AMateria::addToList(AMateria* materia) {
+	materia->_next = _head;
+	_head = materia;
 }
