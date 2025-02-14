@@ -14,11 +14,17 @@ int main()
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+	me->equip(tmp);
+	me->equip(new Ice());
+	me->equip(new Cure());
+	me->equip(new Ice());
 	ICharacter* bob = new Character("bob");
 	me->use(0, *bob);
 	me->use(1, *bob);
+	me->unequip(1);
 	delete bob;
 	delete me;
 	delete src;
+	AMateria::cleanup();
 	return 0;
 }

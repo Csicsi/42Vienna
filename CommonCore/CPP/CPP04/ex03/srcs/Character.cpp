@@ -41,6 +41,8 @@ void Character::equip(AMateria* m) {
 	if (m == NULL)
 		return;
 	for (int i = 0; i < 4; i++) {
+		if (_inventory[i] == m)
+			return;
 		if (_inventory[i] == NULL) {
 			_inventory[i] = m;
 			return;
@@ -51,6 +53,7 @@ void Character::equip(AMateria* m) {
 void Character::unequip(int idx) {
 	if (idx < 0 || idx >= 4 || _inventory[idx] == NULL)
 		return;
+	AMateria::addToUnequippedList(_inventory[idx]);
 	_inventory[idx] = NULL;
 }
 
