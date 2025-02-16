@@ -17,12 +17,6 @@ How It Works
     The server reconstructs the message by catching and interpreting these signals.
     Optionally, the server sends acknowledgments back to confirm message receipt (Bonus).
 
-Bonus Features
-
-🔹 Extended character set support (Unicode, special characters).
-🔹 Message acknowledgment – The server confirms when a message is received.
-🔹 Optimized memory usage – Dynamic allocation prevents unnecessary memory waste.
-🔹 Handling multiple clients (optional, depending on implementation).
 What I Learned
 
     How to use Unix signals for process communication.
