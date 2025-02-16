@@ -1,3 +1,17 @@
+🏗️ 42 Common Core – Software Engineering Curriculum
+
+After passing the 42 Piscine, students enter the Common Core, a rigorous peer-learning program covering low-level programming, algorithms, system administration, and software engineering fundamentals. The curriculum is project-based and self-paced, allowing students to build real-world skills through progressively harder challenges.
+Key Topics Covered
+
+    🖥️ C Programming & Unix Systems – Memory management, system calls, shell scripting, Makefiles.
+    🏗️ Data Structures & Algorithms – Linked lists, sorting algorithms, recursion, and complexity analysis.
+    🔄 Concurrency & Parallelism – Multithreading, process synchronization, semaphores.
+    🖧 Networking & System Administration – Sockets, protocols, file systems.
+    🎮 Graphics & Game Dev – Using MiniLibX to build a raycaster inspired by Wolfenstein 3D.
+    🛠️ Software Engineering Best Practices – Git, debugging tools, code optimization.
+
+The Common Core builds the foundation for system-level programming, preparing students for specializations in AI, web development, cybersecurity, or advanced C++ projects.
+
 | 🚀 **Project Name**       | 🏅 **Badge**                                                                                                                                              |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | 📚 [**Libft**](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft)           | [![dcsicsak's 42 Libft Score](https://badge.nimon.fr/api/v2/cm0i0l41w364801lt3tp2nno0/project/3623787)](https://github.com/Csicsi/42Vienna/tree/main/CommonCore/libft) |
