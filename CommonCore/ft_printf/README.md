@@ -1,7 +1,7 @@
 🖨️ ft_printf – Custom Implementation of printf
 
 ft_printf is a 42 Vienna project that involves recreating the standard printf function from <stdio.h> without using external libraries like stdio.h. This project teaches variadic functions, memory management, and formatted output handling.
-Features & Supported Specifiers
+
 
     ✅ Handles standard format specifiers:
         %c → Character
