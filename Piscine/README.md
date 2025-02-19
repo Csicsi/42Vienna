@@ -1,11 +1,12 @@
-🏊‍♂️ 42 Piscine - Intensive C Bootcamp
+# 🏊‍♂️ 42 Piscine - Intensive C Bootcamp
 
-The 42 Piscine is a 4-week intensive programming bootcamp that serves as the entry challenge for 42 Vienna and other 42 schools worldwide. It is designed to test problem-solving skills, adaptability, and the ability to learn independently. The program focuses on C programming, algorithms, and Unix systems, pushing participants to write efficient, well-structured, and norm-compliant code.
-What I Learned During the Piscine
+The **42 Piscine** is a 4-week intensive programming bootcamp that serves as the entry challenge for **42 Vienna** and other 42 schools worldwide. It is designed to test problem-solving skills, adaptability, and the ability to learn independently. The program focuses on C programming, algorithms, and Unix systems, pushing participants to write efficient, well-structured, and norm-compliant code.
 
-    C Programming: Memory management, pointers, file I/O, recursion, and algorithms.
-    Unix & Shell: Using the command line, scripting, Makefiles, and version control with Git.
-    Peer Learning: Collaborative coding, debugging, and code review.
+## What I Learned During the Piscine
+
+* C Programming: Memory management, pointers, file I/O, recursion, and algorithms.
+* Unix & Shell: Using the command line, scripting, Makefiles, and version control with Git.
+* Peer Learning: Collaborative coding, debugging, and code review.
 
 The Piscine is not just about coding—it’s a test of resilience, adaptability, and self-learning, reflecting the challenges of real-world software development.
 | 🚀 **Project Name**       | 🏅 **Badge**                                                                                                                                              |
