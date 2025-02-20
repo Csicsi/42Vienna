@@ -1,12 +1,6 @@
 #include "Bureaucrat.hpp"
 
-const char* Bureaucrat::GradeTooHighException::what() const throw() {
-	return "Grade is too high!";
-}
-
-const char* Bureaucrat::GradeTooLowException::what() const throw() {
-	return "Grade is too low!";
-}
+Bureaucrat::Bureaucrat() : _name("default"), _grade(150) {}
 
 Bureaucrat::Bureaucrat(const std::string& _name, int _grade) : _name(_name) {
 	if (_grade < 1)
