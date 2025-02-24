@@ -9,18 +9,20 @@
 
 class Bureaucrat;
 
-class Form {
+class AForm {
 private:
 	const std::string _name;
 	bool _signed;
 	const int _toSign;
 	const int  _toExecute;
+
+	virtual void action() const = 0;
 public:
-	Form();
-	Form(const std::string name, const int toSign, const int toExecute);
-	~Form();
-	Form(const Form &other);
-	Form &operator=(const Form &other);
+	AForm();
+	AForm(const std::string name, const int toSign, const int toExecute);
+	virtual ~AForm();
+	AForm(const AForm &other);
+	AForm &operator=(const AForm &other);
 
 	class GradeTooHighException : public GradeTooHighExceptionBase {};
 	class GradeTooLowException : public GradeTooLowExceptionBase {};
