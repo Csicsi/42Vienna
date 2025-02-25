@@ -5,9 +5,9 @@
 #include <stdexcept>
 #include "GradeTooHighExceptionBase.hpp"
 #include "GradeTooLowExceptionBase.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat {
 private:
@@ -26,7 +26,7 @@ public:
 	int getGrade() const;
 	void incrementGrade(int num);
 	void decrementGrade(int num);
-	void signForm(Form &Form);
+	void signForm(AForm &Form);
 
 	class GradeTooHighException : public GradeTooHighExceptionBase {};
 	class GradeTooLowException : public GradeTooLowExceptionBase {};
