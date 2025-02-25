@@ -22,5 +22,12 @@ void RobotomyRequestForm::execute(const Bureaucrat &executor) const {
 		throw NotSignedException();
 	if (executor.getGrade() > this->getToExecute())
 		throw GradeTooLowException();
-	std::cout << "Robotomy" << std::endl;
+	std::srand(time(0));
+	system("aplay ~/electric-drill-03.wav >/dev/null 2>&1");
+	std::cout << "***drill noises***" << std::endl;
+	if (rand() % 2 == 1)
+		std::cout << this->getName()
+			<< " has been robotomized successfully!" << std::endl;
+	else
+		std::cout << "Robotomy failed!" << std::endl;
 }
