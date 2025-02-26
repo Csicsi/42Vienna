@@ -1,4 +1,4 @@
-#include "Bureaucrat.hpp"
+#include "../includes/Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat() : _name("default"), _grade(150) {}
 

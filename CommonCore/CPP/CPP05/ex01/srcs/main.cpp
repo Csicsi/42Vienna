@@ -1,26 +1,42 @@
-#include "Bureaucrat.hpp"
+#include <iostream>
+#include "../includes/Bureaucrat.hpp"
 #include "Form.hpp"
 
-int main() {
+int	main() {
+	Bureaucrat highRank("Alice", 1);
+	Bureaucrat midRank("Bob", 50);
+	Bureaucrat lowRank("Charlie", 150);
+
+	Form form("Form", 100, 50);
+	std::cout << form << std::endl;
+
 	try {
-		Bureaucrat bob("Bob", 2);
-		Bureaucrat jim("Jim", 150);
-		std::cout << bob << std::endl;
-		Form form("Form", 10, 1);
-		std::cout << form << std::endl;
-		form.beSigned(bob);
-		std::cout << form << std::endl;
-		Form form2("Form2", 100, 1);
-		bob.signForm(form2);
-		std::cout << form2 << std::endl;
-		jim.signForm(form2);
-		std::cout << form2 << std::endl;
-		Form form3("Form3", 10, 1);
-		jim.signForm(form3);
-		std::cout << form3 << std::endl;
-	} catch (std::exception& e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "Should fail, low rank:" << std::endl;
+		lowRank.signForm(form);
+	} catch (const std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
-	return 0;
+	try {
+		midRank.signForm(form);
+		std::cout << form << std::endl;
+		std::cout << "Already sigend:" << std::endl;
+		highRank.signForm(form);
+	} catch (const std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
+
+	try {
+		std::cout << "Should fail, grade too high:" << std::endl;
+		Form form2("Invalid", 10, 0);
+	} catch (const std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
+
+	try {
+		std::cout << "Should fail, grade too low:" << std::endl;
+		Form form2("Invalid", 151, 100);
+	} catch (const std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
 }
