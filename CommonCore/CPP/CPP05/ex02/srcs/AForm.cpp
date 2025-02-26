@@ -1,9 +1,9 @@
 #include "AForm.hpp"
 
-AForm::AForm() : _name("default"), _signed(false), _toSign(150), _toExecute(150) {}
+AForm::AForm() : _name("default"), _target("target"), _signed(false), _toSign(150), _toExecute(150) {}
 
-AForm::AForm(const std::string name, const int toSign, const int toExecute) :
-	_name(name), _signed(false), _toSign(toSign), _toExecute(toExecute) {
+AForm::AForm(const std::string name, const std::string target, const int toSign, const int toExecute) :
+	_name(name), _target(target), _signed(false), _toSign(toSign), _toExecute(toExecute) {
 	if (_toSign < 1 || _toExecute < 1) {
 		throw AForm::GradeTooHighException();
 	} else if (_toSign > 150 || _toExecute > 150) {
@@ -27,6 +27,10 @@ AForm &AForm::operator=(const AForm &other) {
 
 const std::string &AForm::getName() const {
 	return _name;
+}
+
+const std::string &AForm::getTarget() const {
+	return _target;
 }
 
 bool AForm::getSigned() const {

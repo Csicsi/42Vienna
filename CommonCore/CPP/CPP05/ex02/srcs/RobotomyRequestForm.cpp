@@ -1,10 +1,10 @@
 #include "RobotomyRequestForm.hpp"
 #include "AForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 145, 137) {}
+RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", "target", 72, 45) {}
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string target)
-	: AForm(target, 145, 137) {}
+	: AForm("RobotomyRequestForm", target, 72, 45) {}
 
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
@@ -26,7 +26,7 @@ void RobotomyRequestForm::execute(const Bureaucrat &executor) const {
 	system("aplay ~/electric-drill-03.wav >/dev/null 2>&1");
 	std::cout << "***drill noises***" << std::endl;
 	if (rand() % 2 == 1)
-		std::cout << this->getName()
+		std::cout << this->getTarget()
 			<< " has been robotomized successfully!" << std::endl;
 	else
 		std::cout << "Robotomy failed!" << std::endl;

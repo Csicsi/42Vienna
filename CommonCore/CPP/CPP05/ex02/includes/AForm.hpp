@@ -13,12 +13,13 @@ class Bureaucrat;
 class AForm {
 private:
 	const std::string _name;
+	const std::string _target;
 	bool _signed;
 	const int _toSign;
 	const int  _toExecute;
 public:
 	AForm();
-	AForm(const std::string name, const int toSign, const int toExecute);
+	AForm(const std::string name, const std::string target, const int toSign, const int toExecute);
 	virtual ~AForm();
 	AForm(const AForm &other);
 	AForm &operator=(const AForm &other);
@@ -27,6 +28,7 @@ public:
 	class GradeTooLowException : public GradeTooLowExceptionBase {};
 
 	const std::string &getName() const;
+	const std::string &getTarget() const;
 	bool getSigned() const;
 	void beSigned(const Bureaucrat &bureaucrat);
 	int getToSign() const;
