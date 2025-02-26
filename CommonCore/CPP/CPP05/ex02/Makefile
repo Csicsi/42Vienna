@@ -1,4 +1,4 @@
-NAME = bureaucrat
+NAME = forms
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
 SRCS = srcs/main.cpp srcs/Bureaucrat.cpp \

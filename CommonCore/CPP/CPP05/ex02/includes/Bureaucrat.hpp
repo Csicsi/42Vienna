@@ -27,6 +27,7 @@ public:
 	void incrementGrade(int num);
 	void decrementGrade(int num);
 	void signForm(AForm &Form);
+	void executeForm(AForm &Form);
 
 	class GradeTooHighException : public GradeTooHighExceptionBase {};
 	class GradeTooLowException : public GradeTooLowExceptionBase {};

@@ -59,7 +59,8 @@ int AForm::getToExecute() const {
 }
 
 std::ostream &operator<<(std::ostream &out, const AForm &AForm) {
-	out << "AForm " << AForm.getName() << " is ";
+	out << "AForm " << AForm.getName()
+	<< " has target: " << AForm.getTarget() << ", is ";
 	if (!AForm.getSigned()) {
 		out << "not ";
 	}
