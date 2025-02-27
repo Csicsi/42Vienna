@@ -9,6 +9,8 @@
 
 class Bureaucrat;
 
+typedef class AForm Form;
+
 class AForm {
 private:
 	const std::string _name;

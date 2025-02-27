@@ -1,10 +1,10 @@
-#ifndef NOTSIGNEDEXCEPTION_HPP
-#define NOTSIGNEDEXCEPTION_HPP
+#ifndef GRADETOOHIGHEXCEPTIONBASE_HPP
+#define GRADETOOHIGHEXCEPTIONBASE_HPP
 
 #include <iostream>
 #include <exception>
 
-class NotSignedException {
+class GradeTooHighExceptionBase : public std::exception {
 private:
 	// No private members;
 public:

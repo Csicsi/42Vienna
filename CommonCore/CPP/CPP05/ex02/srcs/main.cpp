@@ -79,5 +79,15 @@ int main() {
 		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
+	try {
+		std::cout << "\nPresidential Pardon Form Exception:" << std::endl;
+		PresidentialPardonForm pardon("Marvin");
+		std::cout << pardon << std::endl;
+		std::cout << "Should fail, not signed" << std::endl;
+		highRank.executeForm(pardon);
+	} catch (std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
+
 	return 0;
 }
