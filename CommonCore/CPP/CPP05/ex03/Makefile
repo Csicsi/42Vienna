@@ -1,11 +1,13 @@
-NAME = intern
+NAME = forms
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
 SRCS = srcs/main.cpp srcs/Bureaucrat.cpp \
 	srcs/GradeTooHighExceptionBase.cpp \
 	srcs/GradeTooLowExceptionBase.cpp srcs/AForm.cpp \
-	srcs/ShrubberyCreationForm.cpp srcs/RobotomyRequestForm.cpp \
-	srcs/PresidentialPardonForm.cpp srcs/Intern.cpp
+	srcs/ShrubberyCreationForm.cpp \
+	srcs/RobotomyRequestForm.cpp srcs/PresidentialPardonForm.cpp \
+	srcs/NotSignedExceptionBase.cpp srcs/Intern.cpp \
+	srcs/UnknownFormExceptionBase.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

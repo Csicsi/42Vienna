@@ -5,6 +5,7 @@
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include "UnknownFormExceptionBase.hpp"
 
 class Intern {
 private:
@@ -14,6 +15,8 @@ public:
 	~Intern();
 	Intern(const Intern &other);
 	Intern &operator=(const Intern &other);
+
+	class UnknownFormException : public UnknownFormExceptionBase {};
 
 	Form *makeForm(std::string formName, std::string target);
 	Form *makePresidentialPardonForm(std::string target);

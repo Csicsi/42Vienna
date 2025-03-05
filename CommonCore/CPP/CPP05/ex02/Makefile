@@ -4,8 +4,9 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
 SRCS = srcs/main.cpp srcs/Bureaucrat.cpp \
 	srcs/GradeTooHighExceptionBase.cpp \
 	srcs/GradeTooLowExceptionBase.cpp srcs/AForm.cpp \
-	srcs/NotSignedException.cpp srcs/ShrubberyCreationForm.cpp \
-	srcs/RobotomyRequestForm.cpp srcs/PresidentialPardonForm.cpp
+	srcs/ShrubberyCreationForm.cpp \
+	srcs/RobotomyRequestForm.cpp srcs/PresidentialPardonForm.cpp \
+	srcs/NotSignedExceptionBase.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

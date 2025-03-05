@@ -18,10 +18,8 @@ ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationF
 }
 
 void ShrubberyCreationForm::execute(const Bureaucrat &executor) const {
-	if (this->getSigned() == false) {
-		std::cerr << "Form not signed" << std::endl;
-		return;
-	}
+	if (this->getSigned() == false)
+		throw NotSignedException();
 	if (executor.getGrade() > this->getToExecute())
 		throw GradeTooLowException();
 

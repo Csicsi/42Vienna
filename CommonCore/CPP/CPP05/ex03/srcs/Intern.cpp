@@ -41,5 +41,6 @@ Form *Intern::makeForm(std::string formName, std::string target) {
 			}
 		}
 	}
+	throw UnknownFormException();
 	return NULL;
 }

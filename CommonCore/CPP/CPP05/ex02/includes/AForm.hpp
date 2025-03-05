@@ -5,6 +5,7 @@
 #include <string>
 #include "GradeTooHighExceptionBase.hpp"
 #include "GradeTooLowExceptionBase.hpp"
+#include "NotSignedExceptionBase.hpp"
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
@@ -25,6 +26,7 @@ public:
 
 	class GradeTooHighException : public GradeTooHighExceptionBase {};
 	class GradeTooLowException : public GradeTooLowExceptionBase {};
+	class NotSignedException : public NotSignedExceptionBase {};
 
 	const std::string &getName() const;
 	const std::string &getTarget() const;
