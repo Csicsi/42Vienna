@@ -1,7 +1,7 @@
 NAME = form
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
-SRCS = srcs/main.cpp srcs/Bureaucrat.cpp srcs/GradeTooHighExceptionBase.cpp srcs/GradeTooLowExceptionBase.cpp srcs/Form.cpp
+SRCS = srcs/main.cpp srcs/Bureaucrat.cpp srcs/Form.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

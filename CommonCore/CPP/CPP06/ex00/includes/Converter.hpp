@@ -5,6 +5,7 @@
 #include <climits>
 #include <cstdlib>
 #include <cfloat>
+#include <sstream>
 
 class Converter {
 private:

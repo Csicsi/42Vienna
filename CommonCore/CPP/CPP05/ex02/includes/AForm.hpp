@@ -3,9 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include "GradeTooHighExceptionBase.hpp"
-#include "GradeTooLowExceptionBase.hpp"
-#include "NotSignedExceptionBase.hpp"
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
@@ -24,10 +21,19 @@ public:
 	AForm(const AForm &other);
 	AForm &operator=(const AForm &other);
 
-	class GradeTooHighException : public GradeTooHighExceptionBase {};
-	class GradeTooLowException : public GradeTooLowExceptionBase {};
-	class NotSignedException : public NotSignedExceptionBase {};
-
+	class GradeTooLowException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+	class GradeTooHighException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+	class NotSignedException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+	
 	const std::string &getName() const;
 	const std::string &getTarget() const;
 	bool getSigned() const;

@@ -38,16 +38,10 @@ bool AForm::getSigned() const {
 }
 
 void AForm::beSigned(const Bureaucrat &bureaucrat) {
-	if (_signed) {
-		std::cout << "AForm " << _name << " is already signed, no need for "
-			<< bureaucrat.getName() << " to sign." << std::endl;
-		return;
-	}
 	if (bureaucrat.getGrade() > _toSign) {
 		throw AForm::GradeTooLowException();
 	}
 	_signed = true;
-	std::cout << bureaucrat.getName() << " signs " << _name << std::endl;
 }
 
 int AForm::getToSign() const {
@@ -68,4 +62,16 @@ std::ostream &operator<<(std::ostream &out, const AForm &AForm) {
 		<< " to sign, and grade " << AForm.getToExecute()
 		<< " to execute.";
 	return out;
+}
+
+const char *AForm::GradeTooLowException::what() const throw() {
+	return "Grade is too low";
+}
+
+const char *AForm::GradeTooHighException::what() const throw() {
+	return "Grade is too high";
+}
+
+const char *AForm::NotSignedException::what() const throw() {
+	return "Form is not signed";
 }

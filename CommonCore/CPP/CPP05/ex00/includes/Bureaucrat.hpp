@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "GradeTooHighExceptionBase.hpp"
-#include "GradeTooLowExceptionBase.hpp"
 
 class Bureaucrat {
 private:
@@ -24,8 +22,14 @@ public:
 	void incrementGrade(int num);
 	void decrementGrade(int num);
 
-	class GradeTooHighException : public GradeTooHighExceptionBase {};
-	class GradeTooLowException : public GradeTooLowExceptionBase {};
+	class GradeTooLowException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+	class GradeTooHighException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
 };
 
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);

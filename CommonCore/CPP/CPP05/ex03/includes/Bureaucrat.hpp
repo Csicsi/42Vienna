@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "GradeTooHighExceptionBase.hpp"
-#include "GradeTooLowExceptionBase.hpp"
 #include "AForm.hpp"
 
 class AForm;
@@ -29,8 +27,14 @@ public:
 	void signForm(AForm &Form);
 	void executeForm(AForm &Form);
 
-	class GradeTooHighException : public GradeTooHighExceptionBase {};
-	class GradeTooLowException : public GradeTooLowExceptionBase {};
+	class GradeTooLowException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+	class GradeTooHighException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
 };
 
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);

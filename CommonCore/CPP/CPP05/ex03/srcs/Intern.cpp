@@ -42,9 +42,14 @@ Form *Intern::makeForm(std::string formName, std::string target)
 	{
 		if (formName == formNames[i])
 		{
+			std::cout << "Intern creates " << formName << std::endl;
 			return (this->*formCreators[i])(target);
 		}
 	}
 	throw UnknownFormException();
 	return NULL;
+}
+
+const char *Intern::UnknownFormException::what() const throw() {
+	return "Unknown form";
 }

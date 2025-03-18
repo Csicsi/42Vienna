@@ -25,54 +25,27 @@ bool Converter::isChar(const std::string &literal) {
 }
 
 bool Converter::isInt(const std::string &literal) {
-	if (literal.empty())
-		return false;
-	for (size_t i = (literal[0] == '-' || literal[0] == '+') ? 1 : 0;
-		i < literal.length(); i++) {
-		if (!isdigit(literal[i])) return false;
-	}
-	long l = std::strtol(literal.c_str(), NULL, 10);
-	if (l > INT_MAX || l < INT_MIN)
-		return false;
-	return true;
+	std::stringstream ss(literal);
+	unsigned int i;
+
+	ss >> i;
+	return (ss.eof() && !ss.fail());
 }
 
 bool Converter::isFloat(const std::string &literal) {
-	if (literal.empty())
-		return false;
-	size_t dot = 0;
-	size_t len = literal.length();
-	if (literal[len - 1] != 'f')
-		return false;
-	for (size_t i = (literal[0] == '-' || literal[0] == '+') ? 1 : 0;
-		i < len - 1; i++) {
-		if (literal[i] == '.') {
-			if (++dot > 1) {
-				return false;
-			}
-		} else if (!isdigit(literal[i]))
-			return false;
-	}
-	return true;
+	std::stringstream ss(literal);
+	float f;
+
+	ss >> f;
+	return (ss.eof() && !ss.fail());
 }
 
 bool Converter::isDouble(const std::string &literal) {
-	if (literal.empty())
-		return false;
-	size_t dot = 0;
-	size_t len = literal.length();
-	if (literal[len - 1] == 'f')
-		return false;
-	for (size_t i = (literal[0] == '-' || literal[0] == '+') ? 1 : 0;
-		i < len; i++) {
-		if (literal[i] == '.') {
-			if (++dot > 1) {
-				return false;
-			}
-		} else if (!isdigit(literal[i]))
-			return false;
-	}
-	return true;
+	std::stringstream ss(literal);
+	double d;
+
+	ss >> d;
+	return (ss.eof() && !ss.fail());
 }
 
 void Converter::convert(const std::string &literal) {

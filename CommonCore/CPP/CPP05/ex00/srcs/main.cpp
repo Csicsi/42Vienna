@@ -16,7 +16,7 @@ int main() {
 
 	try {
 		Bureaucrat alice("Alice", 149);
-		std::cout << alice << std::endl;
+		std::cout << "\n" << alice << std::endl;
 
 		alice.decrementGrade(1);
 		std::cout << "After decrement: " << alice << std::endl;
@@ -28,15 +28,15 @@ int main() {
 	}
 
 	try {
+		std::cout << "\nExpexted: too high" << std::endl;
 		Bureaucrat john("John", 0);
-		std::cout << "Expexted: too high" << std::endl;
 	} catch (std::exception& e) {
 		std::cerr << "Exception caught: " << e.what() << std::endl;
 	}
 
 	try {
+		std::cout << "\nExpexted: too low" << std::endl;
 		Bureaucrat jane("Jane", 151);
-		std::cout << "Expexted: too low" << std::endl;
 	} catch (std::exception& e) {
 		std::cerr << "Exception caught: " << e.what() << std::endl;
 	}
