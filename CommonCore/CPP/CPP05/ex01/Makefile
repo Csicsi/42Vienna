@@ -1,9 +1,10 @@
 NAME = form
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -MMD
 SRCS = srcs/main.cpp srcs/Bureaucrat.cpp srcs/Form.cpp
 
 OBJS = $(SRCS:.cpp=.o)
+DEPS = $(OBJS:.o=.d)
 
 all: $(NAME)
 
@@ -17,7 +18,7 @@ valgrind: all
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(DEPS)
 
 fclean: clean
 	rm -f $(NAME)
@@ -26,5 +27,7 @@ re: fclean all
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re run valgrind
