@@ -1,11 +1,11 @@
 #include "../includes/Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : _name("default"), _grade(150) {}
+Bureaucrat::Bureaucrat() : _name("default"), _grade(LOWEST_GRADE) {}
 
 Bureaucrat::Bureaucrat(const std::string& _name, int _grade) : _name(_name) {
-	if (_grade < 1)
+	if (_grade < HIGHEST_GRADE)
 		throw GradeTooHighException();
-	if (_grade > 150)
+	if (_grade > LOWEST_GRADE)
 		throw GradeTooLowException();
 	this->_grade = _grade;
 }
@@ -30,13 +30,13 @@ int Bureaucrat::getGrade() const {
 }
 
 void Bureaucrat::incrementGrade(int num) {
-	if (_grade - num < 1)
+	if (_grade - num < HIGHEST_GRADE)
 		throw GradeTooHighException();
 	_grade -= num;
 }
 
 void Bureaucrat::decrementGrade(int num) {
-	if (_grade + num > 150)
+	if (_grade + num > LOWEST_GRADE)
 		throw GradeTooLowException();
 	_grade += num;
 }

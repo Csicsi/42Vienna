@@ -5,6 +5,9 @@
 #include <string>
 #include "Bureaucrat.hpp"
 
+#define LOWEST_GRADE 150
+#define HIGHEST_GRADE 1
+
 class Bureaucrat;
 
 typedef class AForm Form;

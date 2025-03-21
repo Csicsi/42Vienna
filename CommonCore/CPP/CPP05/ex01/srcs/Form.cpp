@@ -1,12 +1,12 @@
 #include "Form.hpp"
 
-Form::Form() : _name("default"), _signed(false), _toSign(150), _toExecute(150) {}
+Form::Form() : _name("default"), _signed(false), _toSign(LOWEST_GRADE), _toExecute(LOWEST_GRADE) {}
 
 Form::Form(const std::string name, const int toSign, const int toExecute) :
 	_name(name), _signed(false), _toSign(toSign), _toExecute(toExecute) {
-	if (_toSign < 1 || _toExecute < 1) {
+	if (_toSign < HIGHEST_GRADE || _toExecute < HIGHEST_GRADE) {
 		throw Form::GradeTooHighException();
-	} else if (_toSign > 150 || _toExecute > 150) {
+	} else if (_toSign > LOWEST_GRADE || _toExecute > LOWEST_GRADE) {
 		throw Form::GradeTooLowException();
 	}
 }

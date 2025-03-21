@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 
+#define LOWEST_GRADE 150
+#define HIGHEST_GRADE 1
+
 class Bureaucrat {
 private:
 	const std::string _name;

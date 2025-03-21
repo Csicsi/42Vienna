@@ -1,12 +1,12 @@
 #include "AForm.hpp"
 
-AForm::AForm() : _name("default"), _target("target"), _signed(false), _toSign(150), _toExecute(150) {}
+AForm::AForm() : _name("default"), _target("target"), _signed(false), _toSign(LOWEST_GRADE), _toExecute(LOWEST_GRADE) {}
 
 AForm::AForm(const std::string name, const std::string target, const int toSign, const int toExecute) :
 	_name(name), _target(target), _signed(false), _toSign(toSign), _toExecute(toExecute) {
-	if (_toSign < 1 || _toExecute < 1) {
+	if (_toSign < HIGHEST_GRADE || _toExecute < HIGHEST_GRADE) {
 		throw AForm::GradeTooHighException();
-	} else if (_toSign > 150 || _toExecute > 150) {
+	} else if (_toSign > LOWEST_GRADE || _toExecute > LOWEST_GRADE) {
 		throw AForm::GradeTooLowException();
 	}
 }

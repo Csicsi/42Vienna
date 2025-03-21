@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include "AForm.hpp"
 
+#define LOWEST_GRADE 150
+#define HIGHEST_GRADE 1
+
 class AForm;
 
 class Bureaucrat {

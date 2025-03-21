@@ -5,6 +5,9 @@
 #include <string>
 #include "Bureaucrat.hpp"
 
+#define LOWEST_GRADE 150
+#define HIGHEST_GRADE 1
+
 class Bureaucrat;
 
 class AForm {
@@ -33,7 +36,7 @@ public:
 	public:
 		virtual const char *what() const throw();
 	};
-	
+
 	const std::string &getName() const;
 	const std::string &getTarget() const;
 	bool getSigned() const;
