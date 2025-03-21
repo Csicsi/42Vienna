@@ -1,7 +1,7 @@
 NAME = convert
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -MMD
-SRCS = srcs/main.cpp srcs/Converter.cpp
+SRCS = srcs/main.cpp srcs/ScalarConverter.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(OBJS:.o=.d)
@@ -10,12 +10,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
-run: all
-	./$(NAME)
-
-valgrind: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 clean:
 	rm -f $(OBJS) $(DEPS)
@@ -30,4 +24,4 @@ re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run valgrind
+.PHONY: all clean fclean re
