@@ -17,12 +17,14 @@ private:
 	bool _signed;
 	const int _toSign;
 	const int  _toExecute;
-public:
+
 	AForm();
+	AForm &operator=(const AForm &other);
+
+public:
 	AForm(const std::string name, const std::string target, const int toSign, const int toExecute);
 	virtual ~AForm();
 	AForm(const AForm &other);
-	AForm &operator=(const AForm &other);
 
 	class GradeTooLowException : public std::exception {
 	public:

@@ -16,12 +16,14 @@ private:
 	bool _signed;
 	const int _toSign;
 	const int  _toExecute;
-public:
+
 	Form();
+	Form &operator=(const Form &other);
+
+public:
 	Form(const std::string name, const int toSign, const int toExecute);
 	~Form();
 	Form(const Form &other);
-	Form &operator=(const Form &other);
 
 	class GradeTooLowException : public std::exception {
 	public:

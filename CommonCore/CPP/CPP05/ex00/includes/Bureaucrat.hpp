@@ -12,13 +12,13 @@ private:
 	const std::string _name;
 	int _grade;
 
-public:
 	Bureaucrat();
+	Bureaucrat& operator=(const Bureaucrat& other);
+
+public:
 	Bureaucrat(const std::string& name, int grade);
 	~Bureaucrat();
 	Bureaucrat(const Bureaucrat& other);
-	Bureaucrat& operator=(const Bureaucrat& other);
-
 
 	std::string getName() const;
 	int getGrade() const;
