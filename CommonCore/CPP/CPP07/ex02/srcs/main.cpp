@@ -9,8 +9,8 @@ int main() {
 		Array<int> numbers(5);
 		std::cout << "Numbers array size: " << numbers.size() << std::endl;
 
-		for (std::size_t i = 0; i < numbers.size(); ++i)
-			numbers[i] = static_cast<int>(i * 10);
+		for (unsigned int i = 0; i < numbers.size(); ++i)
+			numbers[i] = (i * 10);
 
 		Array<int> copy(numbers);
 		numbers[0] = 99;
