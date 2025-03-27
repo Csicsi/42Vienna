@@ -1,4 +1,4 @@
-NAME = find
+NAME = easyfind
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -MMD
 SRCS = srcs/main.cpp
