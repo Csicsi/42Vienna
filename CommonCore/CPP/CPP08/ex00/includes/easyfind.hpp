@@ -22,5 +22,4 @@ typename T::iterator easyfind(T& container, int value)
 	return iter;
 }
 
-
 #endif
