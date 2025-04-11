@@ -12,8 +12,8 @@ private:
 public:
 	BitcoinExchange();
 	~BitcoinExchange();
-	void parseInputFile(const std::string& filename);
-	void printData() const;
+	void loadExchangeRates();
+	void processInputFile(const std::string& filename);
 };
 
 #endif

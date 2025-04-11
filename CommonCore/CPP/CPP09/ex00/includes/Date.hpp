@@ -2,6 +2,7 @@
 #define DATE_HPP
 
 #include <iostream>
+#include <cstdlib>
 
 class Date {
 private:
@@ -11,13 +12,14 @@ private:
 
 	Date();
 public:
-	Date(int day, int month, int year);
+	Date(std::string dateStr);
 	~Date();
 	Date(const Date &other);
 	Date &operator=(const Date &other);
 	int getDay() const;
 	int getMonth() const;
 	int getYear() const;
+	bool isValid() const;
 	bool operator==(const Date &other) const;
 	bool operator!=(const Date &other) const;
 	bool operator<(const Date &other) const;
