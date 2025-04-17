@@ -1,3 +1,6 @@
+#ifndef PMERGEME_TPP
+#define PMERGEME_TPP
+
 #include "PmergeMe.hpp"
 
 template <typename T>
@@ -5,12 +8,15 @@ PmergeMe<T>::PmergeMe() : comparison_count(0) {}
 
 template <typename T>
 PmergeMe<T>::PmergeMe(const PmergeMe &other)
-	: comparison_count(other.comparison_count) {}
+	: comparison_count(other.comparison_count),
+	  pair_history(other.pair_history) {}
 
 template <typename T>
 PmergeMe<T> &PmergeMe<T>::operator=(const PmergeMe &other) {
-	if (this != &other)
+	if (this != &other) {
 		this->comparison_count = other.comparison_count;
+		this->pair_history = other.pair_history;
+	}
 	return *this;
 }
 
@@ -20,6 +26,23 @@ PmergeMe<T>::~PmergeMe() {}
 template <typename T>
 int PmergeMe<T>::getComparisonCount() const {
 	return comparison_count;
+}
+
+template <typename T>
+const std::vector<std::vector<std::pair<int, int> > > &PmergeMe<T>::getPairHistory() const {
+	return pair_history;
+}
+
+template <typename T>
+void PmergeMe<T>::printPairHistory() const {
+	for (size_t depth = 0; depth < pair_history.size(); ++depth) {
+		std::cout << "Depth " << depth << ": ";
+		for (size_t i = 0; i < pair_history[depth].size(); ++i) {
+			std::cout << "(" << pair_history[depth][i].first << ", "
+				<< pair_history[depth][i].second << ") ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 template <typename T>
@@ -73,11 +96,13 @@ void PmergeMe<T>::sort(T &elements) {
 		return;
 
 	T bigs, smalls;
+	std::vector<std::pair<int, int> > current_pairs;
 
 	typename T::iterator it = elements.begin();
 	while (it + 1 < elements.end()) {
 		int a = *it;
 		int b = *(it + 1);
+		current_pairs.push_back(std::make_pair(a, b));
 		++comparison_count;
 		if (a > b) {
 			bigs.push_back(a);
@@ -91,6 +116,7 @@ void PmergeMe<T>::sort(T &elements) {
 	if (it != elements.end())
 		smalls.push_back(*it);
 
+	pair_history.push_back(current_pairs);
 	sort(bigs);
 
 	T result = bigs;
@@ -115,3 +141,5 @@ void PmergeMe<T>::sort(T &elements) {
 
 	elements = result;
 }
+
+#endif

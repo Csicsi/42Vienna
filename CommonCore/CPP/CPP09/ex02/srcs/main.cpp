@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include "PmergeMe.hpp"
 
-int getMaxComparison(int n)  {
+int getMaxComparison(int n) {
 	static const int maxComp[] = {
 		0, 1, 3, 5, 7, 10, 13, 16, 19, 22,
 		26, 30, 34, 38, 42, 46, 50, 54, 58, 62,
@@ -70,5 +70,8 @@ int main() {
 	std::cout << "Comparison count for std::vector: " << vecSorter.getComparisonCount() << "\n";
 	std::cout << "Comparison count for std::deque: " << deqSorter.getComparisonCount() << "\n";
 	std::cout << "Max comparison count for " << len << " elements: " << getMaxComparison(len) << "\n";
+
+	vecSorter.printPairHistory();
+
 	return 0;
 }
