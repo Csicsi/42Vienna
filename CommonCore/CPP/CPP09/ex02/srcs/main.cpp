@@ -23,7 +23,7 @@ int getMaxComparison(int n) {
 int main() {
 	srand(static_cast<unsigned>(time(0)));
 
-	const size_t len = 19;
+	const size_t len = 10;
 	int raw[len];
 	for (size_t i = 0; i < len; ++i)
 		raw[i] = rand() % 100;
@@ -32,7 +32,7 @@ int main() {
 	std::deque<int> deq(raw, raw + len);
 
 	PmergeMe<std::vector<int> > vecSorter;
-	PmergeMe<std::deque<int> > deqSorter;
+	//PmergeMe<std::deque<int> > deqSorter;
 
 	struct timeval start, end;
 
@@ -42,11 +42,11 @@ int main() {
 	long long vecTime = (end.tv_sec - start.tv_sec) * 1000000LL
 	+ (end.tv_usec - start.tv_usec);
 
-	gettimeofday(&start, NULL);
+	/*gettimeofday(&start, NULL);
 	deqSorter.sort(deq);
 	gettimeofday(&end, NULL);
 	long long deqTime = (end.tv_sec - start.tv_sec) * 1000000LL
-	+ (end.tv_usec - start.tv_usec);
+	+ (end.tv_usec - start.tv_usec);*/
 
 	std::vector<int> expected(raw, raw + len);
 	std::sort(expected.begin(), expected.end());
@@ -65,13 +65,10 @@ int main() {
 	}
 
 	std::cout << "\nTime to process a range of " << len << " elements with std::vector: " << vecTime << " us\n";
-	std::cout << "Time to process a range of " << len << " elements with std::deque: " << deqTime << " us\n";
+	//std::cout << "Time to process a range of " << len << " elements with std::deque: " << deqTime << " us\n";
 
 	std::cout << "Comparison count for std::vector: " << vecSorter.getComparisonCount() << "\n";
-	std::cout << "Comparison count for std::deque: " << deqSorter.getComparisonCount() << "\n";
+	//std::cout << "Comparison count for std::deque: " << deqSorter.getComparisonCount() << "\n";
 	std::cout << "Max comparison count for " << len << " elements: " << getMaxComparison(len) << "\n";
-
-	vecSorter.printPairHistory();
-
 	return 0;
 }

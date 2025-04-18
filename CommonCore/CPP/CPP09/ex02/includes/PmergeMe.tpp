@@ -1,6 +1,3 @@
-#ifndef PMERGEME_TPP
-#define PMERGEME_TPP
-
 #include "PmergeMe.hpp"
 
 template <typename T>
@@ -8,15 +5,12 @@ PmergeMe<T>::PmergeMe() : comparison_count(0) {}
 
 template <typename T>
 PmergeMe<T>::PmergeMe(const PmergeMe &other)
-	: comparison_count(other.comparison_count),
-	  pair_history(other.pair_history) {}
+	: comparison_count(other.comparison_count) {}
 
 template <typename T>
 PmergeMe<T> &PmergeMe<T>::operator=(const PmergeMe &other) {
-	if (this != &other) {
+	if (this != &other)
 		this->comparison_count = other.comparison_count;
-		this->pair_history = other.pair_history;
-	}
 	return *this;
 }
 
@@ -27,119 +21,84 @@ template <typename T>
 int PmergeMe<T>::getComparisonCount() const {
 	return comparison_count;
 }
-
 template <typename T>
-const std::vector<std::vector<std::pair<int, int> > > &PmergeMe<T>::getPairHistory() const {
-	return pair_history;
-}
-
-template <typename T>
-void PmergeMe<T>::printPairHistory() const {
-	for (size_t depth = 0; depth < pair_history.size(); ++depth) {
-		std::cout << "Depth " << depth << ": ";
-		for (size_t i = 0; i < pair_history[depth].size(); ++i) {
-			std::cout << "(" << pair_history[depth][i].first << ", "
-				<< pair_history[depth][i].second << ") ";
-		}
-		std::cout << std::endl;
-	}
-}
-
-template <typename T>
-void PmergeMe<T>::binaryInsert(T &sorted, int elem) {
-	typename T::iterator left = sorted.begin();
-	typename T::iterator right = sorted.end();
-
-	while (left < right) {
-		typename T::iterator mid = left + (right - left) / 2;
-		++comparison_count;
-		if (elem < *mid)
-			right = mid;
-		else
-			left = mid + 1;
-	}
-	sorted.insert(left, elem);
-}
-
-template <typename T>
-T PmergeMe<T>::getJacobsthal(int n) {
-	T order;
-	T jacob;
-	jacob.push_back(1);
-	jacob.push_back(3);
-
-	while (true) {
-		int next = jacob[jacob.size() - 1] * 2 + jacob[jacob.size() - 2];
-		if (next >= n)
-			break;
-		jacob.push_back(next);
-	}
-
-	std::vector<bool> inserted(n, false);
-	for (int i = static_cast<int>(jacob.size()) - 1; i >= 0; --i) {
-		for (int j = jacob[i]; j > (i == 0 ? 0 : jacob[i - 1]); --j) {
-			if ((j - 1) < n && !inserted[j - 1]) {
-				order.push_back(j - 1);
-				inserted[j - 1] = true;
-			}
-		}
-	}
-	if (n > 0 && !inserted[0])
-		order.push_back(0);
-
-	return order;
-}
-
-template <typename T>
-void PmergeMe<T>::sort(T &elements) {
+void PmergeMe<T>::sort(T &elements, int depth) {
 	if (elements.size() <= 1)
 		return;
 
-	T bigs, smalls;
-	std::vector<std::pair<int, int> > current_pairs;
+	size_t block_size = static_cast<size_t>(std::pow(2.0, depth));
+	if ((block_size * 2) > elements.size())
+		return;
 
-	typename T::iterator it = elements.begin();
-	while (it + 1 < elements.end()) {
-		int a = *it;
-		int b = *(it + 1);
-		current_pairs.push_back(std::make_pair(a, b));
-		++comparison_count;
-		if (a > b) {
-			bigs.push_back(a);
-			smalls.push_back(b);
-		} else {
-			bigs.push_back(b);
-			smalls.push_back(a);
-		}
-		it += 2;
-	}
-	if (it != elements.end())
-		smalls.push_back(*it);
+	typedef typename T::iterator iterator;
+	iterator begin = elements.begin();
+	iterator end = elements.end();
 
-	pair_history.push_back(current_pairs);
-	sort(bigs);
+	size_t total_blocks = elements.size() / block_size;
+	for (size_t i = 0; i + 1 < total_blocks; i += 2) {
+		iterator left = begin + (i * block_size);
+		iterator right = begin + ((i + 1) * block_size);
 
-	T result = bigs;
-
-	T order = getJacobsthal(smalls.size());
-	std::vector<bool> seen(smalls.size(), false);
-	T full_order;
-
-	for (size_t i = 0; i < order.size(); ++i) {
-		if (order[i] < static_cast<int>(smalls.size()) && !seen[order[i]]) {
-			full_order.push_back(order[i]);
-			seen[order[i]] = true;
+		comparison_count++;
+		if (*left < *right) {
+			std::swap_ranges(left, left + block_size, right);
 		}
 	}
-	for (size_t i = 0; i < smalls.size(); ++i) {
-		if (!seen[i])
-			full_order.push_back(i);
+
+	sort(elements, depth + 1);
+
+	size_t pair_count = elements.size() / (2 * block_size);
+	for (size_t i = 0; i < pair_count; ++i) {
+		iterator small_start = begin + (i * 2 * block_size + block_size);
+		iterator small_end = small_start + block_size;
+
+		std::vector<typename T::value_type> small_block(small_start, small_end);
+
+		iterator left = begin;
+		iterator right = small_start;
+		while (left < right) {
+			iterator mid = left + (((right - left) / block_size) / 2) * block_size;
+
+			comparison_count++;
+			if (*mid < small_block[0])
+				left = mid + block_size;
+			else
+				right = mid;
+		}
+		iterator insert_at = left;
+
+		for (iterator k = small_end - block_size; k >= insert_at + block_size && k >= begin + block_size; k -= block_size)
+			std::copy_backward(k - block_size, k, k + block_size);
+
+		std::copy(small_block.begin(), small_block.end(), insert_at);
 	}
 
-	for (size_t i = 0; i < full_order.size(); ++i)
-		binaryInsert(result, smalls[full_order[i]]);
+	size_t remainder_start = pair_count * 2 * block_size;
+	size_t remainder_size = elements.size() - remainder_start;
 
-	elements = result;
+	if (remainder_size >= block_size) {
+		iterator rem_start = begin + remainder_start;
+		iterator rem_end = rem_start + block_size;
+
+		std::vector<typename T::value_type> rem_block(rem_start, rem_end);
+
+		size_t full_block_count = elements.size() / block_size;
+		iterator left = begin;
+		iterator right = begin + (full_block_count * block_size);
+		while (left < right) {
+			iterator mid = left + (((right - left) / block_size) / 2) * block_size;
+
+			comparison_count++;
+			if (*mid < rem_block[0])
+				left = mid + block_size;
+			else
+				right = mid;
+		}
+		iterator insert_at = left;
+
+		for (iterator k = end - block_size; k >= insert_at + block_size && k >= begin + block_size; k -= block_size)
+			std::copy_backward(k - block_size, k, k + block_size);
+
+		std::copy(rem_block.begin(), rem_block.end(), insert_at);
+	}
 }
-
-#endif
