@@ -23,7 +23,7 @@ int getMaxComparison(int n) {
 int main() {
 	srand(static_cast<unsigned>(time(0)));
 
-	const size_t len = 10;
+	const size_t len = 19;
 	int raw[len];
 	for (size_t i = 0; i < len; ++i)
 		raw[i] = rand() % 100;
