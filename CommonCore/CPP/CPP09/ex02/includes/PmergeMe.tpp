@@ -63,37 +63,41 @@ std::vector<size_t> PmergeMe<T>::jacobsthal(size_t pair_count, size_t block_size
 	jacobsthal.push_back(1);
 	jacobsthal.push_back(1);
 
-	for (size_t n = 3; jacobsthal.size() < smalls_size / block_size; ++n) {
+	for (size_t n = 2; ; ++n) {
 		size_t jn = jacobsthal[n - 1] + 2 * jacobsthal[n - 2];
 		if (jn >= smalls_size / block_size)
 			break;
 		jacobsthal.push_back(jn);
 	}
 
-	std::cout << "jacobsthal: ";
-	for (size_t i = 0; i < jacobsthal.size(); ++i)
-		std::cout << jacobsthal[i] << " ";
-	std::cout << "\n";
-
 	std::vector<size_t> insertion_order;
 	std::vector<bool> used(pair_count, false);
 	used[0] = true;
 
 	for (size_t i = 1; i < jacobsthal.size(); ++i) {
-		if (jacobsthal[i] < pair_count && !used[jacobsthal[i]]) {
-			insertion_order.push_back(jacobsthal[i]);
-			used[jacobsthal[i]] = true;
+		size_t current = jacobsthal[i];
+		if (current < pair_count && !used[current]) {
+			insertion_order.push_back(current);
+			used[current] = true;
+		}
+		size_t prev = jacobsthal[i - 1];
+		for (size_t j = current - 1; j > prev; --j) {
+			if (j < pair_count && !used[j]) {
+				insertion_order.push_back(j);
+				used[j] = true;
+			}
 		}
 	}
-	for (size_t i = 1; i < pair_count; ++i) {
+
+	for (size_t i = pair_count - 1; i > jacobsthal.back(); --i) {
 		if (!used[i]) {
 			insertion_order.push_back(i);
 			used[i] = true;
 		}
 	}
+
 	return insertion_order;
 }
-
 
 template <typename T>
 void PmergeMe<T>::insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start) {
@@ -129,11 +133,6 @@ template <typename T>
 void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size_t block_size) {
 	size_t pair_count = container_size / (2 * block_size);
 	std::vector<size_t> insertion_order = jacobsthal(pair_count, block_size, smalls.size());
-	std::cout << "Block size: " << block_size << "\n";
-	std::cout << "insertion_order: ";
-	for (size_t i = 0; i < insertion_order.size(); ++i)
-		std::cout << insertion_order[i] << " ";
-	std::cout << "\n";
 
 	for (size_t i = 0; i < insertion_order.size(); ++i) {
 		size_t idx = insertion_order[i];
