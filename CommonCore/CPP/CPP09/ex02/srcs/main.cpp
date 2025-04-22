@@ -8,7 +8,7 @@
 
 int getMaxComparison(int n) {
 	static const int maxComp[] = {
-		0, 1, 3, 5, 7, 10, 13, 16, 19, 22,
+		0, 0, 1, 3, 5, 7, 10, 13, 16, 19, 22,
 		26, 30, 34, 38, 42, 46, 50, 54, 58, 62,
 		66, 71, 76, 81, 86, 91, 96, 101, 106, 111,
 		116, 121, 126, 131
@@ -23,7 +23,7 @@ int getMaxComparison(int n) {
 int main() {
 	srand(static_cast<unsigned>(time(0)));
 
-	const size_t len = 19;
+	const size_t len = 15;
 	int raw[len];
 	for (size_t i = 0; i < len; ++i)
 		raw[i] = rand() % 100;
@@ -58,6 +58,13 @@ int main() {
 	std::cout << "\nAfter: ";
 	for (size_t i = 0; i < vec.size(); ++i) {
 		std::cout << vec[i] << " ";
+		/*if (vec[i] != expected[i]) {
+			std::cerr << "\n[Error] Vector sort mismatch.\n";
+			return 1;
+		}*/
+	}
+
+		for (size_t i = 0; i < vec.size(); ++i) {
 		if (vec[i] != expected[i]) {
 			std::cerr << "\n[Error] Vector sort mismatch.\n";
 			return 1;

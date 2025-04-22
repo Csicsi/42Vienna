@@ -8,6 +8,12 @@
 #include <algorithm>
 #include <iterator>
 
+struct JacobsthalBound {
+	size_t jacobsthal;
+	size_t insert_offset;
+};
+
+
 template <typename T>
 class PmergeMe {
 private:

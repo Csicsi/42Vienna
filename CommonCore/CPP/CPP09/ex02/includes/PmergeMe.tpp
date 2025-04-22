@@ -134,11 +134,15 @@ void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size
 	size_t pair_count = container_size / (2 * block_size);
 	std::vector<size_t> insertion_order = jacobsthal(pair_count, block_size, smalls.size());
 
+	size_t prev_j = 1;
+	size_t curr_j = 3;
+
 	for (size_t i = 0; i < insertion_order.size(); ++i) {
 		size_t idx = insertion_order[i];
 		size_t small_index = idx * block_size;
+		size_t right_bound = std::min(bigs.size() / block_size, curr_j + prev_j - 1);
+		size_t left = 0, right = right_bound;
 
-		size_t left = 0, right = bigs.size() / block_size;
 		while (left < right) {
 			size_t mid = (left + right) / 2;
 			comparison_count++;
@@ -149,14 +153,20 @@ void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size
 		}
 
 		size_t insert_pos = left * block_size;
-		bigs.insert(bigs.begin() + insert_pos,
+
+		bigs.insert(
+			bigs.begin() + insert_pos,
 			smalls.begin() + small_index,
-			smalls.begin() + small_index + block_size);
+			smalls.begin() + small_index + block_size
+		);
+
+		size_t next_j = curr_j + 2 * prev_j;
+		prev_j = curr_j;
+		curr_j = next_j;
 	}
 
 	insertLeftovers(bigs, elements, block_size, pair_count * block_size * 2);
 }
-
 
 template <typename T>
 void PmergeMe<T>::sort(T &elements, size_t block_size) {
