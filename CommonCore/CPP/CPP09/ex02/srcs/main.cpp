@@ -23,59 +23,46 @@ int getMaxComparison(int n) {
 int main() {
 	srand(static_cast<unsigned>(time(0)));
 
-	const size_t len = 15;
-	int raw[len];
-	for (size_t i = 0; i < len; ++i)
-		raw[i] = rand() % 100;
+	const int TEST_RUNS = 100;
+	const int MAX_LEN = 100;
 
-	std::vector<int> vec(raw, raw + len);
-	std::deque<int> deq(raw, raw + len);
+	for (int len = 1; len <= MAX_LEN; ++len) {
+		int failCount = 0;
+		long long totalTime = 0;
+		long long totalComparisons = 0;
 
-	PmergeMe<std::vector<int> > vecSorter;
-	//PmergeMe<std::deque<int> > deqSorter;
+		for (int test = 0; test < TEST_RUNS; ++test) {
+			std::vector<int> raw(len);
+			for (int i = 0; i < len; ++i)
+				raw[i] = rand() % 10000;
 
-	struct timeval start, end;
+			std::vector<int> vec = raw;
+			std::vector<int> expected = raw;
+			std::sort(expected.begin(), expected.end());
 
-	gettimeofday(&start, NULL);
-	vecSorter.sort(vec);
-	gettimeofday(&end, NULL);
-	long long vecTime = (end.tv_sec - start.tv_sec) * 1000000LL
-	+ (end.tv_usec - start.tv_usec);
+			PmergeMe<std::vector<int> > sorter;
 
-	/*gettimeofday(&start, NULL);
-	deqSorter.sort(deq);
-	gettimeofday(&end, NULL);
-	long long deqTime = (end.tv_sec - start.tv_sec) * 1000000LL
-	+ (end.tv_usec - start.tv_usec);*/
+			struct timeval start, end;
+			gettimeofday(&start, NULL);
+			sorter.sort(vec);
+			gettimeofday(&end, NULL);
 
-	std::vector<int> expected(raw, raw + len);
-	std::sort(expected.begin(), expected.end());
+			long long elapsed = (end.tv_sec - start.tv_sec) * 1000000LL + (end.tv_usec - start.tv_usec);
+			totalTime += elapsed;
+			totalComparisons += sorter.getComparisonCount();
 
-	std::cout << "Before: ";
-	for (size_t i = 0; i < len; ++i)
-		std::cout << raw[i] << " ";
-
-	std::cout << "\nAfter: ";
-	for (size_t i = 0; i < vec.size(); ++i) {
-		std::cout << vec[i] << " ";
-		/*if (vec[i] != expected[i]) {
-			std::cerr << "\n[Error] Vector sort mismatch.\n";
-			return 1;
-		}*/
-	}
-
-		for (size_t i = 0; i < vec.size(); ++i) {
-		if (vec[i] != expected[i]) {
-			std::cerr << "\n[Error] Vector sort mismatch.\n";
-			return 1;
+			if (vec != expected)
+				++failCount;
 		}
+
+		std::cout << "Length: " << len
+		          << " | " << (failCount == 0 ? "✅" : "❌")
+		          << " | Failures: " << failCount << "/" << TEST_RUNS
+		          << " | Avg Time: " << (totalTime / TEST_RUNS) << " us"
+		          << " | Avg Comparisons: " << (totalComparisons / TEST_RUNS)
+		          << " | Max Comparisons: " << getMaxComparison(len)
+		          << "\n";
 	}
 
-	std::cout << "\nTime to process a range of " << len << " elements with std::vector: " << vecTime << " us\n";
-	//std::cout << "Time to process a range of " << len << " elements with std::deque: " << deqTime << " us\n";
-
-	std::cout << "Comparison count for std::vector: " << vecSorter.getComparisonCount() << "\n";
-	//std::cout << "Comparison count for std::deque: " << deqSorter.getComparisonCount() << "\n";
-	std::cout << "Max comparison count for " << len << " elements: " << getMaxComparison(len) << "\n";
 	return 0;
 }
