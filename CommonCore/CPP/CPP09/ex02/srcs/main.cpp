@@ -20,7 +20,7 @@ int getMaxComparison(int n) {
 	return static_cast<int>(n * std::log(n) / std::log(2) - 1.443 * n);
 }
 
-int main() {
+/*int main() {
 	srand(static_cast<unsigned>(time(0)));
 
 	const int TEST_RUNS = 100;
@@ -29,7 +29,7 @@ int main() {
 	for (int len = 1; len <= MAX_LEN; ++len) {
 		int failCount = 0;
 		long long totalTime = 0;
-		long long totalComparisons = 0;
+		long long maxComparisons = 0;
 
 		for (int test = 0; test < TEST_RUNS; ++test) {
 			std::vector<int> raw(len);
@@ -49,7 +49,8 @@ int main() {
 
 			long long elapsed = (end.tv_sec - start.tv_sec) * 1000000LL + (end.tv_usec - start.tv_usec);
 			totalTime += elapsed;
-			totalComparisons += sorter.getComparisonCount();
+			if (maxComparisons < sorter.getComparisonCount())
+				maxComparisons = sorter.getComparisonCount();
 
 			if (vec != expected)
 				++failCount;
@@ -59,10 +60,63 @@ int main() {
 		          << " | " << (failCount == 0 ? "✅" : "❌")
 		          << " | Failures: " << failCount << "/" << TEST_RUNS
 		          << " | Avg Time: " << (totalTime / TEST_RUNS) << " us"
-		          << " | Avg Comparisons: " << (totalComparisons / TEST_RUNS)
-		          << " | Max Comparisons: " << getMaxComparison(len)
-		          << "\n";
+		          << " | Max Comparisons: " << maxComparisons
+		          << " | Max theoretical Comparisons: " << getMaxComparison(len)
+		          << "\n" << (maxComparisons <= getMaxComparison(len) ? "✅ under Max" : "❌ over the limit") << std::endl;
 	}
 
 	return 0;
 }
+*/
+
+int main() {
+	srand(static_cast<unsigned>(time(0)));
+
+	const size_t len = 5;
+	int raw[len];
+	for (size_t i = 0; i < len; ++i)
+		raw[i] = rand() % 100;
+
+	std::vector<int> vec(raw, raw + len);
+	std::deque<int> deq(raw, raw + len);
+
+	PmergeMe<std::vector<int> > vecSorter;
+
+	struct timeval start, end;
+
+	gettimeofday(&start, NULL);
+	vecSorter.sort(vec);
+	gettimeofday(&end, NULL);
+	long long vecTime = (end.tv_sec - start.tv_sec) * 1000000LL
+	+ (end.tv_usec - start.tv_usec);
+
+	std::vector<int> expected(raw, raw + len);
+	std::sort(expected.begin(), expected.end());
+
+	std::cout << "Before: ";
+	for (size_t i = 0; i < len; ++i)
+		std::cout << raw[i] << " ";
+
+	std::cout << "\nAfter: ";
+	for (size_t i = 0; i < vec.size(); ++i) {
+		std::cout << vec[i] << " ";
+	}
+
+	bool isSorted = true;
+	for (size_t i = 0; i < vec.size(); ++i) {
+		if (vec[i] != expected[i]) {
+			isSorted = false;
+			break;
+		}
+	}
+	if (isSorted)
+		std::cout << "\n[✅ Success] Vector sorted correctly.\n";
+	else
+		std::cout << "\n[❌ Error] Vector sort mismatch.\n";
+	std::cout << "\nTime to process a range of " << len << " elements with std::vector: " << vecTime << " us\n";
+
+	std::cout << "Comparison count for std::vector: " << vecSorter.getComparisonCount() << "\n";
+	std::cout << "Max comparison count for " << len << " elements: " << getMaxComparison(len) << "\n";
+	return 0;
+}
+
