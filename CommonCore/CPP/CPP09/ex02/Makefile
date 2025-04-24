@@ -11,7 +11,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-run: all
+run: fclean all
+	./$(NAME)
+
+debug: CFLAGS += -DDEBUG=1
+debug: fclean $(NAME)
+	@echo "Running with DEBUG=1..."
 	./$(NAME)
 
 valgrind: all
@@ -30,4 +35,4 @@ re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run valgrind
+.PHONY: all clean fclean re run valgrind debug

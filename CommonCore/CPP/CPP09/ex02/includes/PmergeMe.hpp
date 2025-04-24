@@ -8,11 +8,10 @@
 #include <algorithm>
 #include <iterator>
 
-struct JacobsthalBound {
-	size_t jacobsthal;
-	size_t insert_offset;
-};
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
 
 template <typename T>
 class PmergeMe {
@@ -24,7 +23,7 @@ private:
 	void merge(const T& elements, size_t block_size, T& merged, T& smalls);
 	std::vector<size_t> jacobsthal(size_t pair_count);
 	void binaryInsert(T& bigs, const T& smalls, const T& elements, size_t block_size);
-	void insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start);
+	size_t insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start);
 public:
 	PmergeMe();
 	PmergeMe(const PmergeMe &other);
