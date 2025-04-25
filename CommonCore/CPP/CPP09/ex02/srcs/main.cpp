@@ -15,9 +15,14 @@ int getMaxComparison(int n) {
 	};
 	if (n < 0)
 		return 0;
-	if (n <= 33)
+	if (n <= 34)
 		return maxComp[n];
-	return static_cast<int>(n * std::log(n) / std::log(2) - 1.443 * n);
+
+	int sum = 0;
+	for (int k = 1; k <= n; ++k) {
+		sum += ceil(std::log(0.75 * k) / std::log(2.0));
+	}
+	return sum;
 }
 
 #if DEBUG
@@ -25,7 +30,7 @@ int getMaxComparison(int n) {
 int main() {
 	srand(static_cast<unsigned>(time(0)));
 
-	const size_t len = 5;
+	const size_t len = 34;
 	int raw[len];
 	for (size_t i = 0; i < len; ++i)
 		raw[i] = rand() % 100;
@@ -71,7 +76,7 @@ int main() {
 	srand(static_cast<unsigned>(time(0)));
 
 	const int TEST_RUNS = 100;
-	const int MAX_LEN = 100;
+	const int MAX_LEN = 3000;
 	size_t sortFail = 0;
 	size_t maxFail = 0;
 

@@ -187,14 +187,18 @@ void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size
 		std::cout << "  Inserting small block " << idx << " from index " << small_index << "\n";
 #endif
 
-		size_t right = std::min(bigs.size() / block_size, curr_j + prev_j - 1);
-		size_t left = 0;
+		size_t right_bound = std::min(bigs.size() / block_size, curr_j + prev_j - 1);
+		size_t left = 0, right = right_bound;
+
+#if DEBUG
+		std::cout << "  I: " << i << "  Right bound: " << right << "\n";
+#endif
 
 		while (left < right) {
 			size_t mid = (left + right) / 2;
 			comparison_count++;
 #if DEBUG
-			std::cout << "    Binary search mid: " << mid * block_size << ", value: " << bigs[mid * block_size] << "\n";
+			std::cout << "    Binary search mid: " << mid << ", value: " << bigs[mid * block_size] << "\n";
 #endif
 			if (bigs[mid * block_size] < smalls[small_index])
 				left = mid + 1;
@@ -211,8 +215,14 @@ void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size
 			smalls.begin() + small_index,
 			smalls.begin() + small_index + block_size
 		);
+#if DEBUG
+		std::cout << "  Comparison count after insertion: " << comparison_count << "\n";
+#endif
 
-		if (i != 0 && isJacobsthal(insertion_order[i - 1])) {
+		if (i != 0 && isJacobsthal(i + 2)) {
+#if DEBUG
+			std::cout << "  ******Jacobsthal condition met, updating bounds\n";
+#endif
 			size_t next_j = curr_j + 2 * prev_j;
 			prev_j = curr_j;
 			curr_j = next_j;
