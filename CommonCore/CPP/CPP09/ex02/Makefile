@@ -2,7 +2,7 @@ NAME = PmergeMe
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -MMD
 VALFLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
-SRCS = srcs/main.cpp
+SRCS = srcs/main.cpp srcs/PmergeMe.cpp
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(OBJS:.o=.d)
 
@@ -14,9 +14,8 @@ $(NAME): $(OBJS)
 run: fclean all
 	./$(NAME)
 
-debug: CFLAGS += -DDEBUG=1
-debug: fclean $(NAME)
-	@echo "Running with DEBUG=1..."
+result: CFLAGS += -DRESULT=1
+result: fclean $(NAME)
 	./$(NAME)
 
 valgrind: all
@@ -35,4 +34,4 @@ re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run valgrind debug
+.PHONY: all clean fclean re run valgrind result

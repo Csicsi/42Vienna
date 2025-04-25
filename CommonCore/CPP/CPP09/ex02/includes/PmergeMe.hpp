@@ -1,29 +1,32 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <cstddef>
 #include <vector>
 #include <deque>
-#include <cmath>
+#include <cstddef>
 #include <algorithm>
-#include <iterator>
+#include <iostream>
 
-
-#ifndef DEBUG
-#define DEBUG 0
+#ifndef RESULT
+#define RESULT 0
 #endif
 
-template <typename T>
 class PmergeMe {
 private:
 	int comparison_count;
-	size_t container_size;
 
-	void createPairs(T &elements, size_t block_size);
-	void merge(const T& elements, size_t block_size, T& merged, T& smalls);
-	std::vector<size_t> jacobsthal(size_t pair_count);
-	void binaryInsert(T& bigs, const T& smalls, const T& elements, size_t block_size);
-	void insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start);
+	void createPairsVector(std::vector<int> &elements, size_t block_size);
+	void mergeVector(const std::vector<int> &elements, size_t block_size, std::vector<int> &bigs, std::vector<int> &smalls);
+	std::vector<size_t> jacobsthalVector(size_t pair_count) const;
+	void binaryInsertVector(std::vector<int> &bigs, const std::vector<int> &smalls, size_t block_size);
+
+	void createPairsDeque(std::deque<int> &elements, size_t block_size);
+	void mergeDeque(const std::deque<int> &elements, size_t block_size, std::deque<int> &bigs, std::deque<int> &smalls);
+	std::deque<size_t> jacobsthalDeque(size_t pair_count) const;
+	void binaryInsertDeque(std::deque<int> &bigs, const std::deque<int> &smalls, size_t block_size);
+
+	bool isJacobsthal(size_t n) const;
+
 public:
 	PmergeMe();
 	PmergeMe(const PmergeMe &other);
@@ -31,9 +34,10 @@ public:
 	~PmergeMe();
 
 	int getComparisonCount() const;
-	void sort(T &elements, size_t block_size = 1);
-};
+	void setComparisonCount(int count);
 
-#include "PmergeMe.tpp"
+	void sortVector(std::vector<int> &elements, size_t block_size = 1);
+	void sortDeque(std::deque<int> &elements, size_t block_size = 1);
+};
 
 #endif
