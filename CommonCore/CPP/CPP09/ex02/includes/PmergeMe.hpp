@@ -23,7 +23,7 @@ private:
 	void merge(const T& elements, size_t block_size, T& merged, T& smalls);
 	std::vector<size_t> jacobsthal(size_t pair_count);
 	void binaryInsert(T& bigs, const T& smalls, const T& elements, size_t block_size);
-	size_t insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start);
+	void insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start);
 public:
 	PmergeMe();
 	PmergeMe(const PmergeMe &other);

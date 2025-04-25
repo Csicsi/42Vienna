@@ -72,6 +72,8 @@ int main() {
 
 	const int TEST_RUNS = 100;
 	const int MAX_LEN = 100;
+	size_t sortFail = 0;
+	size_t maxFail = 0;
 
 	for (int len = 1; len <= MAX_LEN; ++len) {
 		int failCount = 0;
@@ -103,6 +105,11 @@ int main() {
 				++failCount;
 		}
 
+		if (failCount > 0)
+			++sortFail;
+		if (maxComparisons > getMaxComparison(len))
+			++maxFail;
+
 		std::cout << "Length: " << len
 		          << " | " << (failCount == 0 ? "✅" : "❌")
 		          << " | Failures: " << failCount << "/" << TEST_RUNS
@@ -111,6 +118,9 @@ int main() {
 		          << " | Max theoretical Comparisons: " << getMaxComparison(len)
 		          << "\n" << (maxComparisons <= getMaxComparison(len) ? "✅ under Max" : "❌ over the limit") << std::endl;
 	}
+
+	std::cout << "\nSort failures: " << sortFail << " out of " << MAX_LEN << "\n";
+	std::cout << "Max  failures: " << maxFail << " out of " << MAX_LEN << "\n";
 
 	return 0;
 }

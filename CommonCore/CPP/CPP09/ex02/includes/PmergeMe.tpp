@@ -22,7 +22,6 @@ int PmergeMe<T>::getComparisonCount() const {
 	return comparison_count;
 }
 
-
 template <typename T>
 void PmergeMe<T>::createPairs(T &elements, size_t block_size) {
 #if DEBUG
@@ -67,6 +66,20 @@ void PmergeMe<T>::merge(const T& elements, size_t block_size, T& bigs, T& smalls
 			bigs.push_back(elements[left_index + j]);
 		for (size_t j = 0; j < block_size; ++j)
 			smalls.push_back(elements[right_index + j]);
+	}
+
+	size_t leftover_start = pair_count * 2 * block_size;
+#if DEBUG
+	std::cout << "  Elements size: " << elements.size() << "\n";
+	std::cout << "  Leftover start index: " << leftover_start << "\n";
+	std::cout << "  Block size: " << block_size << "\n";
+#endif
+	if (elements.size() - leftover_start >= block_size) {
+#if DEBUG
+		std::cout << "  Appending leftover block to smalls from index " << leftover_start << "\n";
+#endif
+		for (size_t j = 0; j < block_size; ++j)
+			smalls.push_back(elements[leftover_start + j]);
 	}
 }
 
@@ -141,58 +154,26 @@ bool isJacobsthal(size_t n) {
 }
 
 template <typename T>
-size_t PmergeMe<T>::insertLeftovers(T& bigs, const T& elements, size_t block_size, size_t leftover_start) {
-	size_t leftover_size = container_size - leftover_start;
-	if (leftover_size < block_size)
-		return -1;
-
-#if DEBUG
-	std::cout << "[insertLeftovers] Inserting leftover block from index " << leftover_start << "\n";
-#endif
-
-	size_t left = 0, right = bigs.size() / block_size;
-	while (left < right) {
-		size_t mid = (left + right) / 2;
-		comparison_count++;
-#if DEBUG
-		std::cout << "  Binary search mid: " << mid * block_size << ", value: " << bigs[mid * block_size] << "\n";
-#endif
-		if (bigs[mid * block_size] < elements[leftover_start])
-			left = mid + 1;
-		else
-			right = mid;
-	}
-
-	size_t insert_pos = left * block_size;
-#if DEBUG
-	std::cout << "  Inserting leftover at position: " << insert_pos << "\n";
-#endif
-	bigs.insert(
-		bigs.begin() + insert_pos,
-		elements.begin() + leftover_start,
-		elements.begin() + leftover_start + block_size
-	);
-
-	return (insert_pos);
-}
-
-template <typename T>
 void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size_t block_size) {
-	size_t pair_count = container_size / (2 * block_size);
+	(void)elements;
+	size_t pair_count = smalls.size() / block_size;
+
 #if DEBUG
+	std::cout << "[binaryInsert] Pair count: " << pair_count << "\n";
+	std::cout << "  Big blocks: ";
+	for (size_t i = 0; i < bigs.size() / block_size; ++i)
+		std::cout << bigs[i * block_size] << " ";
+	std::cout << "\n";
+	std::cout << "  Small blocks: ";
+	for (size_t i = 0; i < pair_count; ++i)
+		std::cout << smalls[i * block_size] << " ";
+	std::cout << "\n";
 	std::cout << "[binaryInsert] Inserting first small block at beginning\n";
 #endif
 	bigs.insert(
 		bigs.begin(),
 		smalls.begin(),
 		smalls.begin() + block_size
-	);
-
-	size_t leftover_block_index = insertLeftovers(
-		bigs,
-		elements,
-		block_size,
-		pair_count * 2 * block_size
 	);
 
 	std::vector<size_t> insertion_order = jacobsthal(pair_count);
@@ -206,14 +187,8 @@ void PmergeMe<T>::binaryInsert(T& bigs, const T& smalls, const T& elements, size
 		std::cout << "  Inserting small block " << idx << " from index " << small_index << "\n";
 #endif
 
-		size_t right = std::min(bigs.size() / block_size, curr_j + prev_j);
-		//if (small_index < leftover_block_index || leftover_block_index <= 0)
-		//	--right;
-
+		size_t right = std::min(bigs.size() / block_size, curr_j + prev_j - 1);
 		size_t left = 0;
-
-		if (leftover_block_index >= 0 && small_index >= static_cast<size_t>(leftover_block_index))
-			right = std::min(bigs.size() / block_size, right + 1);
 
 		while (left < right) {
 			size_t mid = (left + right) / 2;
@@ -275,6 +250,15 @@ void PmergeMe<T>::sort(T &elements, size_t block_size) {
 	T smalls, bigs;
 	merge(elements, block_size, bigs, smalls);
 	binaryInsert(bigs, smalls, elements, block_size);
+
+	size_t sorted_count = bigs.size();
+	if (sorted_count < container_size) {
+	#if DEBUG
+		std::cout << "  Appending final leftovers from index " << sorted_count << " to " << container_size << "\n";
+	#endif
+		for (size_t i = sorted_count; i < container_size; ++i)
+			bigs.push_back(elements[i]);
+	}
 
 	elements = bigs;
 #if DEBUG
