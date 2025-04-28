@@ -8,6 +8,17 @@ BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::~BitcoinExchange() {}
 
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) {
+	*this = other;
+}
+
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other) {
+	if (this != &other) {
+		_data = other._data;
+	}
+	return *this;
+}
+
 void BitcoinExchange::loadExchangeRates() {
 	std::ifstream file("data.csv");
 	if (!file.is_open()) {
