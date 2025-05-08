@@ -1,7 +1,6 @@
 NAME = btc
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes -MMD
-VALFLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
 SRCS = srcs/main.cpp srcs/Date.cpp srcs/BitcoinExchange.cpp
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(OBJS:.o=.d)
@@ -10,12 +9,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
-run: all
-	./$(NAME)
-
-valgrind: all
-	valgrind $(VALFLAGS) ./$(NAME)
 
 clean:
 	rm -f $(OBJS) $(DEPS)
@@ -30,4 +23,4 @@ re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run valgrind
+.PHONY: all clean fclean re

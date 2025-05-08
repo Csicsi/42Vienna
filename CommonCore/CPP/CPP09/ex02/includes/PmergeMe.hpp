@@ -16,14 +16,18 @@ private:
 	int comparison_count;
 
 	void createPairsVector(std::vector<int> &elements, size_t block_size);
-	void mergeVector(const std::vector<int> &elements, size_t block_size, std::vector<int> &bigs, std::vector<int> &smalls);
+	void mergeVector(const std::vector<int> &elements, size_t block_size,
+			std::vector<int> &bigs, std::vector<int> &smalls);
 	std::vector<size_t> jacobsthalVector(size_t pair_count) const;
-	void binaryInsertVector(std::vector<int> &bigs, const std::vector<int> &smalls, size_t block_size);
+	void binaryInsertVector(std::vector<int> &bigs,
+			const std::vector<int> &smalls, size_t block_size);
 
 	void createPairsDeque(std::deque<int> &elements, size_t block_size);
-	void mergeDeque(const std::deque<int> &elements, size_t block_size, std::deque<int> &bigs, std::deque<int> &smalls);
+	void mergeDeque(const std::deque<int> &elements, size_t block_size,
+			std::deque<int> &bigs, std::deque<int> &smalls);
 	std::deque<size_t> jacobsthalDeque(size_t pair_count) const;
-	void binaryInsertDeque(std::deque<int> &bigs, const std::deque<int> &smalls, size_t block_size);
+	void binaryInsertDeque(std::deque<int> &bigs,
+			const std::deque<int> &smalls, size_t block_size);
 
 	bool isJacobsthal(size_t n) const;
 

@@ -9,7 +9,7 @@
 class RPN
 {
 private:
-	std::stack<int, std::list<int> > _stack;
+	std::stack<double, std::list<double> > _stack;
 
 	void validateInput(const std::string &input);
 public:
@@ -19,6 +19,7 @@ public:
 	RPN &operator=(const RPN &other);
 
 	void compute(const std::string &input);
+	bool isOperator(char c);
 };
 
 #endif

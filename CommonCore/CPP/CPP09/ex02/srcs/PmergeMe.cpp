@@ -67,7 +67,8 @@ void PmergeMe::createPairsVector(std::vector<int> &elements, size_t block_size) 
 	}
 }
 
-void PmergeMe::mergeVector(const std::vector<int> &elements, size_t block_size, std::vector<int> &bigs, std::vector<int> &smalls) {
+void PmergeMe::mergeVector(const std::vector<int> &elements, size_t block_size,
+		std::vector<int> &bigs, std::vector<int> &smalls) {
 	size_t pair_count = elements.size() / (2 * block_size);
 
 	for (size_t i = 0; i < pair_count; ++i) {
@@ -190,7 +191,8 @@ void PmergeMe::createPairsDeque(std::deque<int> &elements, size_t block_size) {
 	}
 }
 
-void PmergeMe::mergeDeque(const std::deque<int> &elements, size_t block_size, std::deque<int> &bigs, std::deque<int> &smalls) {
+void PmergeMe::mergeDeque(const std::deque<int> &elements, size_t block_size,
+		std::deque<int> &bigs, std::deque<int> &smalls) {
 	size_t pair_count = elements.size() / (2 * block_size);
 
 	for (size_t i = 0; i < pair_count; ++i) {

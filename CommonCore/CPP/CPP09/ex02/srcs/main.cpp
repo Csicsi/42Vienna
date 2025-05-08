@@ -1,7 +1,7 @@
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
 #include <sys/time.h>
+#include <iostream>
+#include <climits>
+#include <cmath>
 #include "PmergeMe.hpp"
 
 int getMaxComparison(int n) {
@@ -23,19 +23,45 @@ int getMaxComparison(int n) {
 	return sum;
 }
 
-int main() {
-	srand(static_cast<unsigned>(time(0)));
+void parseArguments(int argc, char** argv, std::vector<int>& vec, std::deque<int>& deq) {
+	if (argc < 2) {
+		std::cerr << "Error: Please provide at least one positive integer as an argument.\n";
+		std::exit(1);
+	}
 
-	const size_t len = 20;
-	int raw[len];
-	for (size_t i = 0; i < len; ++i)
-		raw[i] = rand() % 100;
+	for (int i = 1; i < argc; ++i) {
+		std::string arg(argv[i]);
 
-	std::vector<int> vec(raw, raw + len);
-	std::deque<int> deq(raw, raw + len);
+		for (size_t j = 0; j < arg.size(); ++j) {
+			if (j == 0  && arg[j]  == '+')
+				continue;
+			if (!std::isdigit(arg[j])) {
+				std::cerr << "Error: Argument '" << arg
+					<< "' is not a positive integer.\n";
+				std::exit(1);
+			}
+		}
+
+		long num = std::strtol(argv[i], NULL, 10);
+
+		if (num <= 0 || num > INT_MAX) {
+			std::cerr << "Error: Argument '" << arg
+				<< "' is not a valid positive integer.\n";
+			std::exit(1);
+		}
+
+		vec.push_back(static_cast<int>(num));
+		deq.push_back(static_cast<int>(num));
+	}
+}
+
+int main(int argc, char** argv) {
+	std::vector<int> vec;
+	std::deque<int> deq;
+
+	parseArguments(argc, argv, vec, deq);
 
 	PmergeMe sorter;
-
 	struct timeval start, end;
 
 	gettimeofday(&start, NULL);
@@ -54,34 +80,35 @@ int main() {
 	int deqComp = sorter.getComparisonCount();
 
 	std::cout << "Before: ";
-	for (size_t i = 0; i < len; ++i)
-		std::cout << raw[i] << " ";
+	for (int i = 1; i < argc; ++i)
+		std::cout << argv[i] << " ";
+	std::cout << "\n";
 
-	std::cout << "\nAfter: ";
+	std::cout << "After: ";
 	for (size_t i = 0; i < vec.size(); ++i)
 		std::cout << vec[i] << " ";
+	std::cout << "\n";
 
-	std::cout << "\nTime to process a range of " << len << " elements with std::vector: " << vecTime << " us\n";
-	std::cout << "Time to process a range of " << len << " elements with std::deque: " << deqTime << " us\n";
+	std::cout << "Time to process a range of " << vec.size()
+		<< " elements with std::vector: " << vecTime << " us\n";
+	std::cout << "Time to process a range of " << deq.size()
+		<< " elements with std::deque: " << deqTime << " us\n";
 
 #if RESULT
-
-	std::vector<int> expected(raw, raw + len);
+	std::vector<int> expected(vec);
 	std::sort(expected.begin(), expected.end());
 
 	bool isSorted = (vec == expected);
 
 	std::cout << (isSorted ? "\n[✅ Success] Vector sorted correctly.\n"
-						  : "\n[❌ Error] Vector sort mismatch.\n");
+						   : "\n[❌ Error] Vector sort mismatch.\n");
 	std::cout << "Comparison count for std::vector: " << vecComp << "\n";
 	std::cout << "Comparison count for std::deque: " << deqComp << "\n";
-	std::cout << "Max comparison count for " << len << " elements: " << getMaxComparison(len) << "\n";
-
+	std::cout << "Max comparison count for " << vec.size() << " elements: "
+		<< getMaxComparison(vec.size()) << "\n";
 #else
-
 	(void)vecComp;
 	(void)deqComp;
-
 #endif
 
 	return 0;

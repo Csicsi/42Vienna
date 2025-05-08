@@ -15,9 +15,17 @@ RPN &RPN::operator=(const RPN &other) {
 	return *this;
 }
 
+bool RPN::isOperator(char c) {
+	return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
 void RPN::validateInput(const std::string &input) {
 	for (size_t i = 0; i < input.length(); ++i) {
-		if (!isdigit(input[i]) && input[i] != ' ' && input[i] != '+' && input[i] != '-' && input[i] != '*' && input[i] != '/') {
+		if ((isdigit(input[i]) || isOperator(input[i]))
+			&& input[i + 1] && input[i + 1] != ' ') {
+			throw std::invalid_argument("Error: operand/operator must be separated by a space");
+		}
+		if (!isdigit(input[i]) && input[i] != ' ' && !isOperator(input[i])) {
 			throw std::invalid_argument("Error: invalid character in input");
 		}
 	}
@@ -43,9 +51,9 @@ void RPN::compute(const std::string &input) {
 				std::cerr << "Error: not enough operands" << std::endl;
 				return;
 			}
-			int b = _stack.top();
+			double b = _stack.top();
 			_stack.pop();
-			int a = _stack.top();
+			double a = _stack.top();
 			_stack.pop();
 			switch (input[i]) {
 				case '+':

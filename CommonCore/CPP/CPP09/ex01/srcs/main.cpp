@@ -2,7 +2,8 @@
 
 int main(int argc, char** argv) {
 	if (argc != 2) {
-		std::cerr << "Error: argument missing" << std::endl;
+		std::cerr << "Error: invalid argument" << std::endl;
+		std::cerr << "Usage: ./rpn \"<expression>\"" << std::endl;
 		return 1;
 	}
 
