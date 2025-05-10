@@ -125,10 +125,14 @@ void BitcoinExchange::parseLine(const std::string& line) {
 void BitcoinExchange::processInputFile(const std::string& filename) {
 	std::ifstream file(filename.c_str());
 	if (!file.is_open()) {
-		throw std::runtime_error("Error: could not open data.csv");
+		throw std::runtime_error("Error: could not open input file");
 	}
 	std::string line;
 	std::getline(file, line);
+	if (line.empty()) {
+		std::cerr << "Error: empty input file" << std::endl;
+		return;
+	}
 	if (line != "date | value") {
 		parseLine(line);
 	}

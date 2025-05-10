@@ -2,6 +2,7 @@
 #include <iostream>
 #include <climits>
 #include <cmath>
+#include <cerrno>
 #include "PmergeMe.hpp"
 
 int getMaxComparison(int n) {
@@ -24,10 +25,8 @@ int getMaxComparison(int n) {
 }
 
 void parseArguments(int argc, char** argv, std::vector<int>& vec, std::deque<int>& deq) {
-	if (argc < 2) {
-		std::cerr << "Error: Please provide at least one positive integer as an argument.\n";
-		std::exit(1);
-	}
+	if (argc < 2)
+		throw std::invalid_argument("Error: No arguments provided.");
 
 	for (int i = 1; i < argc; ++i) {
 		std::string arg(argv[i]);
@@ -35,21 +34,17 @@ void parseArguments(int argc, char** argv, std::vector<int>& vec, std::deque<int
 		for (size_t j = 0; j < arg.size(); ++j) {
 			if (j == 0  && arg[j]  == '+')
 				continue;
-			if (!std::isdigit(arg[j])) {
-				std::cerr << "Error: Argument '" << arg
-					<< "' is not a positive integer.\n";
-				std::exit(1);
-			}
+			if (!std::isdigit(arg[j]))
+				throw std::invalid_argument("Error: Argument '" + arg
+					+ "' is not a valid positive integer.");
 		}
 
-		long num = std::strtol(argv[i], NULL, 10);
-
-		if (num <= 0 || num > INT_MAX) {
-			std::cerr << "Error: Argument '" << arg
-				<< "' is not a valid positive integer.\n";
-			std::exit(1);
-		}
-
+		char* endptr;
+		errno = 0;
+		long num = std::strtol(argv[i], &endptr, 10);
+		if (*endptr != '\0' || errno == ERANGE || num <= 0 || num > INT_MAX)
+			throw std::invalid_argument("Error: Argument '" + arg
+				+ "' is not a valid positive integer.");
 		vec.push_back(static_cast<int>(num));
 		deq.push_back(static_cast<int>(num));
 	}
@@ -59,7 +54,12 @@ int main(int argc, char** argv) {
 	std::vector<int> vec;
 	std::deque<int> deq;
 
-	parseArguments(argc, argv, vec, deq);
+	try {
+		parseArguments(argc, argv, vec, deq);
+	} catch (const std::invalid_argument& e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	PmergeMe sorter;
 	struct timeval start, end;

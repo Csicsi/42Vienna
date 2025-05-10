@@ -8,6 +8,11 @@ int main(int argc, char** argv) {
 	}
 
 	RPN rpn;
-	rpn.compute(argv[1]);
+	try {
+		rpn.compute(argv[1]);
+	} catch (const std::exception& e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+		return 1;
+	}
 	return 0;
 }

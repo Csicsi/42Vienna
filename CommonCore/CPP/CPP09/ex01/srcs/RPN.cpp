@@ -35,8 +35,7 @@ void RPN::compute(const std::string &input) {
 	try {
 		RPN::validateInput(input);
 	} catch (const std::invalid_argument &e) {
-		std::cerr << e.what() << std::endl;
-		return;
+		throw;
 	}
 	size_t i = 0;
 	while (input[i] != '\0') {
@@ -47,10 +46,8 @@ void RPN::compute(const std::string &input) {
 		if (isdigit(input[i])) {
 			_stack.push(input[i] - '0');
 		} else {
-			if (_stack.size() < 2) {
-				std::cerr << "Error: not enough operands" << std::endl;
-				return;
-			}
+			if (_stack.size() < 2)
+				throw std::invalid_argument("Error: not enough operands");
 			double b = _stack.top();
 			_stack.pop();
 			double a = _stack.top();
@@ -66,27 +63,19 @@ void RPN::compute(const std::string &input) {
 					_stack.push(a * b);
 					break;
 				case '/':
-					if (b == 0) {
-						std::cerr << "Error: division by zero" << std::endl;
-						return;
-					}
+					if (b == 0)
+						throw std::invalid_argument("Error: division by zero");
 					_stack.push(a / b);
 					break;
 				default:
-					std::cerr << "Error: invalid operator" << std::endl;
-					return;
+					throw std::invalid_argument("Error: invalid operator");
 			}
 		}
 		i++;
 	}
-	if (_stack.size() != 1) {
-		std::cerr << "Error: too many operands" << std::endl;
-		return;
-	}
+	if (_stack.empty())
+		throw std::invalid_argument("Error: no operands");
+	if (_stack.size() > 1)
+		throw std::invalid_argument("Error: too many operands");
 	std::cout << _stack.top() << std::endl;
-	_stack.pop();
-	if (!_stack.empty()) {
-		std::cerr << "Error: stack not empty after computation" << std::endl;
-		return;
-	}
 }
