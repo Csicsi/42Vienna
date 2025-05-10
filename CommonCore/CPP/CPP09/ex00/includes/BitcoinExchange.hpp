@@ -3,6 +3,9 @@
 
 #include <map>
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
 #include "Date.hpp"
 
 class BitcoinExchange {
@@ -11,6 +14,7 @@ private:
 
 	std::string validateValueStr(const std::string& valueStr);
 	bool validateValue(const std::string& valueStr, float value);
+	void parseLine(const std::string& line);
 public:
 	BitcoinExchange();
 	~BitcoinExchange();

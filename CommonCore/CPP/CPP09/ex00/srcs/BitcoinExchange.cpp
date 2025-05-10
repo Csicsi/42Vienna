@@ -1,8 +1,4 @@
 #include "BitcoinExchange.hpp"
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include <iostream>
 
 BitcoinExchange::BitcoinExchange() {}
 
@@ -60,13 +56,10 @@ std::string BitcoinExchange::validateValueStr(const std::string& valueStr) {
 	int i = 1;
 	if (valueStr[1] == '+' || valueStr[1] == '-')
 		i++;
-	if (valueStr.substr(i).find_first_not_of("0123456789.") != std::string::npos) {
-		std::cerr << "Error: invalid value => " << valueStr << std::endl;
-		return result;
-	}
-	std::string::size_type pos = valueStr.find('.');
-	std::string::size_type pos2 = valueStr.substr(pos + 1).find('.');
-	if (pos2 != std::string::npos) {
+	if (valueStr.substr(i).empty() || valueStr[i] == '.' ||
+		*(valueStr.end() - 1) == '.' ||
+		std::count(valueStr.begin(), valueStr.end(), '.') > 1 ||
+		valueStr.substr(i).find_first_not_of("0123456789.") != std::string::npos) {
 		std::cerr << "Error: invalid value => " << valueStr << std::endl;
 		return result;
 	}
@@ -75,7 +68,7 @@ std::string BitcoinExchange::validateValueStr(const std::string& valueStr) {
 }
 
 bool BitcoinExchange::validateValue(const std::string& valueStr, float value) {
-	if (value < 0) {
+	if (value < 0 || (value == 0 && valueStr[1] && valueStr[1] == '-')) {
 		std::cerr << "Error: not a positive number" << std::endl;
 		return false;
 	}
@@ -91,6 +84,44 @@ bool BitcoinExchange::validateValue(const std::string& valueStr, float value) {
 	return true;
 }
 
+void BitcoinExchange::parseLine(const std::string& line) {
+	std::string::size_type pos = line.find('|');
+	if (pos == std::string::npos) {
+		std::cerr << "Error: bad input => " << line << std::endl;
+		return;
+	}
+	std::string dateStr = line.substr(0, pos - 1);
+	std::string valueStr = validateValueStr(line.substr(pos + 1));
+	if (valueStr.empty()) {
+		return;
+	}
+	float value = static_cast<float>(std::atof(valueStr.c_str()));
+	if (!validateValue(valueStr, value)) {
+		return;
+	}
+	try {
+		if (line[10] && line[10] != ' '){
+			std::cerr << "Invalid date format"<< std::endl;
+			return;
+		}
+		Date date(dateStr);
+		std::map<Date, float>::const_iterator it = _data.lower_bound(date);
+		if (it == _data.end() || it->first != date) {
+			if (it == _data.begin()) {
+				std::cerr << "Error: no earlier data available for "
+					<< dateStr << std::endl;
+				return;
+			}
+			--it;
+		}
+		std::cout << dateStr << " => " << value << " = "
+			<< value * it->second << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+}
+
 void BitcoinExchange::processInputFile(const std::string& filename) {
 	std::ifstream file(filename.c_str());
 	if (!file.is_open()) {
@@ -98,38 +129,11 @@ void BitcoinExchange::processInputFile(const std::string& filename) {
 	}
 	std::string line;
 	std::getline(file, line);
+	if (line != "date | value") {
+		parseLine(line);
+	}
 	while (std::getline(file, line)) {
-		std::string::size_type pos = line.find('|');
-		if (pos == std::string::npos) {
-			std::cerr << "Error: bad input => " << line << std::endl;
-			continue;
-		}
-		std::string dateStr = line.substr(0, pos - 1);
-		std::string valueStr = validateValueStr(line.substr(pos + 1));
-		if (valueStr.empty()) {
-			continue;
-		}
-		float value = static_cast<float>(std::atof(valueStr.c_str()));
-		if (!validateValue(valueStr, value)) {
-			continue;
-		}
-		try {
-			Date date(dateStr);
-			std::map<Date, float>::const_iterator it = _data.lower_bound(date);
-			if (it == _data.end() || it->first != date) {
-				if (it == _data.begin()) {
-					std::cerr << "Error: no earlier data available for "
-						<< dateStr << std::endl;
-					continue;
-				}
-				--it;
-			}
-			std::cout << dateStr << " => " << value << " = "
-				<< value * it->second << std::endl;
-		} catch (const std::exception& e) {
-			std::cerr << e.what() << std::endl;
-			continue;
-		}
+		parseLine(line);
 	}
 	file.close();
 }
