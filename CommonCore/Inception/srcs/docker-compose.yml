@@ -6,13 +6,14 @@ services:
       context: ./requirements/nginx
     container_name: nginx
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - web:/var/www/html
     depends_on:
       - wordpress
     networks:
       - inception
+    restart: unless-stopped
 
   wordpress:
     build:
@@ -24,19 +25,33 @@ services:
       - mariadb
     networks:
       - inception
+    restart: unless-stopped
 
   mariadb:
     build:
       context: ./requirements/mariadb
     container_name: mariadb
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
+    restart: unless-stopped
+
 
 volumes:
-  mariadb_data:
   web:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/dcsicsak/data/web
+      o: bind
+
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/dcsicsak/data/mariadb
+      o: bind
 
 networks:
   inception:
