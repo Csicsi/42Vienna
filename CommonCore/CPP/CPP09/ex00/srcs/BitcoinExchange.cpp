@@ -45,12 +45,12 @@ void BitcoinExchange::loadExchangeRates() {
 
 std::string BitcoinExchange::validateValueStr(const std::string& valueStr) {
 	std::string result;
-	if (valueStr.empty() || valueStr.substr(1).empty()) {
-		std::cerr << "Error: empty value" << std::endl;
+	if (valueStr[0] && valueStr[0] != ' ') {
+		std::cerr << "Error: invalid format" << std::endl;
 		return result;
 	}
-	if (valueStr[0] != ' ') {
-		std::cerr << "Error: invalid format" << std::endl;
+	if (valueStr.empty() || valueStr.substr(1).empty()) {
+		std::cerr << "Error: empty value" << std::endl;
 		return result;
 	}
 	int i = 1;
@@ -59,7 +59,7 @@ std::string BitcoinExchange::validateValueStr(const std::string& valueStr) {
 	if (valueStr.substr(i).empty() || valueStr[i] == '.' ||
 		*(valueStr.end() - 1) == '.' ||
 		std::count(valueStr.begin(), valueStr.end(), '.') > 1 ||
-		valueStr.substr(i).find_first_not_of("0123456789.") != std::string::npos) {
+		valueStr.substr(i).find_first_not_of("0123456789.eE+-") != std::string::npos) {
 		std::cerr << "Error: invalid value => " << valueStr << std::endl;
 		return result;
 	}
@@ -95,7 +95,12 @@ void BitcoinExchange::parseLine(const std::string& line) {
 	if (valueStr.empty()) {
 		return;
 	}
-	float value = static_cast<float>(std::atof(valueStr.c_str()));
+	char* endpointer;
+	float value = std::strtof(valueStr.c_str(), &endpointer);
+	if (endpointer == valueStr.c_str() || *endpointer != '\0') {
+		std::cerr << "Error: invalid value => " << valueStr << std::endl;
+		return;
+	}
 	if (!validateValue(valueStr, value)) {
 		return;
 	}
