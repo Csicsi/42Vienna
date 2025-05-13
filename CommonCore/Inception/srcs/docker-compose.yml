@@ -9,9 +9,9 @@ services:
       - "443:443"
     volumes:
       - web:/var/www/html
-      - ../../secrets/credentials.txt:/run/secrets/wp_credentials:ro
-      - ../../secrets/db_password.txt:/run/secrets/db_passwords:ro
-      - ../../secrets/db_root_password.txt:/run/secrets/db_root_password:ro
+      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ./secrets/db_password.txt:/run/secrets/db_passwords:ro
+      - ./secrets/db_root_password.txt:/run/secrets/db_root_password:ro
     depends_on:
       - wordpress
     networks:
@@ -24,7 +24,7 @@ services:
     container_name: wordpress
     volumes:
       - web:/var/www/html
-      - ../../secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
     depends_on:
       - mariadb
     networks:

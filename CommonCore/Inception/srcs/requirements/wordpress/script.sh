@@ -1,41 +1,34 @@
 #!/bin/bash
 
+CREDENTIALS=$(cat /run/secrets/wp_credentials)
+ADMIN_NAME=$(echo "$CREDENTIALS" | sed -n 2p)
+
 cd /var/www/html
 
-if [ ! -f wp-cli.phar ]; then
-  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-  chmod +x wp-cli.phar
-fi
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
 
-if [ ! -f index.php ]; then
-  ./wp-cli.phar core download --allow-root
-fi
+./wp-cli.phar core download --allow-root
 
-if [ ! -f wp-config.php ]; then
-  ./wp-cli.phar config create \
-    --dbname=wordpress \
-    --dbuser=wpuser \
-    --dbpass=password \
-    --dbhost=mariadb \
-    --allow-root
-fi
+./wp-cli.phar config create \
+  --dbname=wordpress \
+  --dbuser=wpuser \
+  --dbpass=password \
+  --dbhost=mariadb \
+  --allow-root
 
-if ! ./wp-cli.phar core is-installed --allow-root; then
-  ./wp-cli.phar core install \
-    --url=https://dcsicsak.42.fr \
-    --title=inception \
-    --admin_user=dcsicsak \
-    --admin_password=admin \
-    --admin_email=admin@admin.com \
-    --allow-root
-fi
+./wp-cli.phar core install \
+  --url=https://dcsicsak.42.fr \
+  --title="$ADMIN_NAME" \
+  --admin_user=dcsicsak \
+  --admin_password=admin \
+  --admin_email=admin@admin.com \
+  --allow-root
 
-if ! ./wp-cli.phar user get newuser --allow-root > /dev/null 2>&1; then
-  ./wp-cli.phar user create newuser newuser@example.com \
-    --role=author \
-    --user_pass=password \
-    --display_name="New User" \
-    --allow-root
-fi
+./wp-cli.phar user create newuser newuser@example.com \
+  --role=author \
+  --user_pass=password \
+  --display_name="New User" \
+  --allow-root
 
 php-fpm8.2 -F
