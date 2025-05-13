@@ -22,7 +22,7 @@ fi
 
 if ! ./wp-cli.phar core is-installed --allow-root; then
   ./wp-cli.phar core install \
-    --url=localhost \
+    --url=https://dcsicsak.42.fr \
     --title=inception \
     --admin_user=dcsicsak \
     --admin_password=admin \
@@ -37,8 +37,5 @@ if ! ./wp-cli.phar user get newuser --allow-root > /dev/null 2>&1; then
     --display_name="New User" \
     --allow-root
 fi
-
-./wp-cli.phar option update siteurl "https://dcsicsak.42.fr" --allow-root
-./wp-cli.phar option update home "https://dcsicsak.42.fr" --allow-root
 
 php-fpm8.2 -F

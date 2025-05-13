@@ -10,6 +10,6 @@ RUN apt update && \
       -keyout /etc/nginx/ssl/selfsigned.key \
       -out /etc/nginx/ssl/selfsigned.crt
 
-COPY default /etc/nginx/sites-available/.
+COPY default /etc/nginx/sites-available
 
 CMD ["nginx", "-g", "daemon off;"]
