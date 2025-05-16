@@ -9,6 +9,7 @@ DB_USER=$(echo "$CREDENTIALS" | sed -n 10p)
 DB_HOST=$(echo "$CREDENTIALS" | sed -n 14p)
 WP_USER=$(echo "$CREDENTIALS" | sed -n 6p)
 WP_USER_PASSWORD=$(echo "$CREDENTIALS" | sed -n 8p)
+WP_USER_EMAIL=$(echo "$CREDENTIALS" | sed -n 16p)
 
 cd /var/www/html
 
@@ -32,7 +33,7 @@ chmod +x wp-cli.phar
   --admin_email="$WP_EMAIL" \
   --allow-root
 
-./wp-cli.phar user create newuser newuser@example.com \
+./wp-cli.phar user create $WP_USER $WP_USER_EMAIL \
   --role=author \
   --user_pass="$WP_USER_PASSWORD" \
   --display_name="$WP_USER" \
