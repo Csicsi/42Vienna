@@ -7,9 +7,10 @@ RUN apt update && apt upgrade -y && \
 	apt update && \
 	apt install -y php8.2-fpm php8.2-mysqli curl
 
+
 COPY www.conf /etc/php/8.2/fpm/pool.d
 
-COPY script.sh .
+COPY ./tools/script.sh .
 RUN chmod +x script.sh
 
 RUN mkdir -p /run/php

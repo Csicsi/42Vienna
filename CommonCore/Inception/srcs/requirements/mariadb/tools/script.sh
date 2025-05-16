@@ -1,9 +1,10 @@
 #!/bin/sh
 
-MYSQL_ROOT_PASSWORD="password"
-MYSQL_PASSWORD="password"
-MYSQL_USER="wpuser"
-MYSQL_DATABASE="wordpress"
+DB_ROOT_PASSWORD=$(cat /run/secrets/db_root_password | sed -n 1p)
+DB_PASSWORD=$(cat /run/secrets/db_passwords | sed -n 1p)
+CREDENTIALS=$(cat /run/secrets/wp_credentials)
+DB_USER=$(echo "$CREDENTIALS" | sed -n 10p)
+DB_DATABASE=$(echo "$CREDENTIALS" | sed -n 12p)
 
 if [ ! -d /var/lib/mysql/mysql ]; then
     mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
@@ -17,10 +18,10 @@ until mariadb-admin ping --silent; do
 done
 
 mariadb -u root <<EOF
-CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+CREATE DATABASE IF NOT EXISTS ${DB_DATABASE};
+CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${DB_DATABASE}.* TO '${DB_USER}'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
 
