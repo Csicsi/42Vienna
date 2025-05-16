@@ -37,6 +37,9 @@ services:
     container_name: mariadb
     volumes:
       - mariadb:/var/lib/mysql
+      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ./secrets/db_password.txt:/run/secrets/db_passwords:ro
+      - ./secrets/db_root_password.txt:/run/secrets/db_root_password:ro
     networks:
       - inception
     restart: unless-stopped
