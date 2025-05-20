@@ -30,6 +30,38 @@ server {
 		fastcgi_pass ${PHP_HOST}:${PHP_PORT};
 	}
 }
+server {
+	listen 443 ssl;
+	server_name static.${DOMAIN_NAME};
+
+	ssl_certificate ${CERTS_CRT};
+	ssl_certificate_key ${CERTS_KEY};
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	location / {
+		proxy_pass http://static:80;
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto \$scheme;
+	}
+}
+server {
+	listen 443 ssl;
+	server_name adminer.${DOMAIN_NAME};
+
+	ssl_certificate ${CERTS_CRT};
+	ssl_certificate_key ${CERTS_KEY};
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	location / {
+		proxy_pass http://adminer:8080;
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto \$scheme;
+	}
+}
 EOF
 
 nginx -g "daemon off;"

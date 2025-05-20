@@ -52,6 +52,23 @@ services:
       - inception
     restart: unless-stopped
 
+  static:
+    build:
+      context: ./requirements/bonus/static
+    container_name: static
+    volumes:
+      - static:/var/www/html
+    networks:
+      - inception
+    restart: unless-stopped
+
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+    container_name: adminer
+    networks:
+      - inception
+    restart: unless-stopped
 
 volumes:
   web:
@@ -66,6 +83,13 @@ volumes:
     driver_opts:
       type: none
       device: /home/dcsicsak/data/mariadb
+      o: bind
+
+  static:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/dcsicsak/data/static
       o: bind
 
 networks:
