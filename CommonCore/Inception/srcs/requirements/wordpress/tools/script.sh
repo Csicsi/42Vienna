@@ -25,6 +25,13 @@ chmod +x wp-cli.phar
   --dbhost="$DB_HOST" \
   --allow-root
 
+sed -i "/^require_once ABSPATH . 'wp-settings.php';/i \
+define('WP_REDIS_HOST', 'redis');\n\
+define('WP_REDIS_PORT', 6379);\n\
+define('WP_REDIS_TIMEOUT', 1);\n\
+define('WP_REDIS_DATABASE', 0);\n" wp-config.php
+
+
 ./wp-cli.phar core install \
   --url="$DOMAIN_NAME" \
   --title="$WP_TITLE" \
@@ -40,5 +47,8 @@ chmod +x wp-cli.phar
   --allow-root
 
 sed -i "s|^listen = .*|listen = ${PHP_HOST}:${PHP_PORT}|" /etc/php/7.4/fpm/pool.d/www.conf
+
+./wp-cli.phar plugin install redis-cache --activate --allow-root
+./wp-cli.phar redis enable --allow-root
 
 php-fpm7.4 -F
