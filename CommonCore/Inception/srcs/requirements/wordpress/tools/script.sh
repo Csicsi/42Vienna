@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_PASSWORD=$(cat /run/secrets/db_passwords | sed -n 1p)
+DB_PASSWORD=$(sed -n 1p /run/secrets/db_passwords)
 CREDENTIALS=$(cat /run/secrets/wp_credentials)
 ADMIN_NAME=$(echo "$CREDENTIALS" | sed -n 2p)
 ADMIN_PASSWORD=$(echo "$CREDENTIALS" | sed -n 4p)
@@ -39,6 +39,6 @@ chmod +x wp-cli.phar
   --display_name="$WP_USER" \
   --allow-root
 
-sed -i "s|^listen = .*|listen = ${PHP_HOST}:${PHP_PORT}|" /etc/php/8.2/fpm/pool.d/www.conf
+sed -i "s|^listen = .*|listen = ${PHP_HOST}:${PHP_PORT}|" /etc/php/7.4/fpm/pool.d/www.conf
 
-php-fpm8.2 -F
+php-fpm7.4 -F

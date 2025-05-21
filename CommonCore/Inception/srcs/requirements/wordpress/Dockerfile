@@ -1,14 +1,11 @@
 FROM debian:bullseye
 
-RUN apt update && apt upgrade -y && \
-	apt install -y lsb-release apt-transport-https ca-certificates wget gnupg && \
-	wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add - && \
-	echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
-	apt update && \
-	apt install -y php8.2-fpm php8.2-mysqli curl
+RUN apt update && apt install -y \
+    php7.4-fpm \
+    php7.4-mysqli \
+    curl
 
-
-COPY www.conf /etc/php/8.2/fpm/pool.d
+COPY www.conf /etc/php/7.4/fpm/pool.d/
 
 COPY ./tools/script.sh .
 RUN chmod +x script.sh
