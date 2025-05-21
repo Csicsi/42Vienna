@@ -7,12 +7,7 @@ RUN apt update && \
 
 COPY vsftpd.conf /etc/vsftpd.conf
 
-RUN useradd -m -d /var/www/html -s /bin/bash ftpuser && \
-    echo "ftpuser:ftp_password" | chpasswd
+COPY ./tools/script.sh .
+RUN chmod +x script.sh
 
-RUN chown -R ftpuser:ftpuser /var/www/html
-
-EXPOSE 21
-EXPOSE 30000-30009
-
-CMD ["vsftpd", "/etc/vsftpd.conf"]
+CMD ["./script.sh"]

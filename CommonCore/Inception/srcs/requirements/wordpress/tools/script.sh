@@ -51,4 +51,6 @@ sed -i "s|^listen = .*|listen = ${PHP_HOST}:${PHP_PORT}|" /etc/php/7.4/fpm/pool.
 ./wp-cli.phar plugin install redis-cache --activate --allow-root
 ./wp-cli.phar redis enable --allow-root
 
+groupadd -f www-data
+
 php-fpm7.4 -F

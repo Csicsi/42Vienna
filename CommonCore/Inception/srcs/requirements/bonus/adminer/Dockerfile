@@ -8,6 +8,7 @@ WORKDIR /var/www/html
 
 RUN curl -L https://www.adminer.org/latest.php -o index.php
 
-EXPOSE 8080
+COPY ./tools/script.sh .
+RUN chmod +x script.sh
 
-CMD ["php", "-S", "0.0.0.0:8080"]
+CMD ["./script.sh"]

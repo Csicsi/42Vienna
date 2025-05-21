@@ -13,6 +13,10 @@ services:
       - PHP_PORT=${PHP_PORT}
       - CERTS_CRT=${CERTS_CRT}
       - CERTS_KEY=${CERTS_KEY}
+      - ADMINER_HOST=${ADMINER_HOST}
+      - ADMINER_PORT=${ADMINER_PORT}
+      - STATIC_HOST=${STATIC_HOST}
+      - STATIC_PORT=${STATIC_PORT}
     depends_on:
       - wordpress
     networks:
@@ -58,14 +62,20 @@ services:
     container_name: static
     networks:
       - inception
+    expose:
+      - ${STATIC_PORT}
     restart: unless-stopped
 
   adminer:
     build:
       context: ./requirements/bonus/adminer
     container_name: adminer
+    environment:
+      - ADMINER_PORT=${ADMINER_PORT}
     networks:
       - inception
+    expose:
+      - ${ADMINER_PORT}
     restart: unless-stopped
 
   ftp:
@@ -73,10 +83,11 @@ services:
       context: ./requirements/bonus/ftp
     volumes:
       - web:/var/www/html
+      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
     container_name: ftp
     ports:
-      - "21:21"
-      - "30000-30009:30000-30009"
+      - "${FTP_PORT}:${FTP_PORT}"
+      - "${FTP_FROM}-${FTP_TO}:${FTP_FROM}-${FTP_TO}"
     networks:
       - inception
     restart: unless-stopped
@@ -89,6 +100,8 @@ services:
     container_name: redis
     networks:
       - inception
+    expose:
+      - ${REDIS_PORT}
     restart: unless-stopped
 
 volumes:
