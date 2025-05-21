@@ -9,7 +9,6 @@ up:
 build:
 	sudo mkdir -p /home/dcsicsak/data/web
 	sudo mkdir -p /home/dcsicsak/data/mariadb
-	docker compose -f srcs/docker-compose.yml build wordpress
 	docker compose -f srcs/docker-compose.yml up --build -d
 
 down:

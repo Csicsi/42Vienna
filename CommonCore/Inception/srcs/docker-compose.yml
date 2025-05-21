@@ -18,7 +18,8 @@ services:
       - STATIC_HOST=${STATIC_HOST}
       - STATIC_PORT=${STATIC_PORT}
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     networks:
       - inception
     restart: unless-stopped
@@ -42,6 +43,11 @@ services:
     networks:
       - inception
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm7.4 -t && kill -0 $(cat /run/php/php7.4-fpm.pid)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
   mariadb:
     build:
