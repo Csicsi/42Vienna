@@ -15,10 +15,4 @@ RUN npm run build
 
 RUN npm prune --omit=dev
 
-RUN mkdir -p /app/data
-
-COPY ./kuma.db /app/data/kuma.db
-
-EXPOSE 3001
-
 CMD ["node", "server/server.js"]

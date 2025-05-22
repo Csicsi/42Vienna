@@ -32,8 +32,8 @@ services:
     container_name: wordpress
     volumes:
       - web:/var/www/html
-      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
-      - ./secrets/db_password.txt:/run/secrets/db_passwords:ro
+      - ../secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ../secrets/db_password.txt:/run/secrets/db_passwords:ro
     environment:
       - WP_EMAIL=${WP_EMAIL}
       - WP_TITLE=${WP_TITLE}
@@ -57,9 +57,9 @@ services:
     container_name: mariadb
     volumes:
       - mariadb:/var/lib/mysql
-      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
-      - ./secrets/db_password.txt:/run/secrets/db_passwords:ro
-      - ./secrets/db_root_password.txt:/run/secrets/db_root_password:ro
+      - ../secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ../secrets/db_password.txt:/run/secrets/db_passwords:ro
+      - ../secrets/db_root_password.txt:/run/secrets/db_root_password:ro
     networks:
       - inception
     restart: unless-stopped
@@ -91,7 +91,7 @@ services:
       context: ./requirements/bonus/ftp
     volumes:
       - web:/var/www/html
-      - ./secrets/credentials.txt:/run/secrets/wp_credentials:ro
+      - ../secrets/credentials.txt:/run/secrets/wp_credentials:ro
     container_name: ftp
     ports:
       - "${FTP_PORT}:${FTP_PORT}"
@@ -118,8 +118,6 @@ services:
     container_name: uptime-kuma
     expose:
      - ${KUMA_PORT}
-    ports:
-      - "${KUMA_PORT}:${KUMA_PORT}"
     volumes:
       - uptime-kuma-data:/app/data
     networks:
