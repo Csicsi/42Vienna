@@ -32,7 +32,7 @@ server {
 }
 server {
 	listen 443 ssl;
-	server_name static.${DOMAIN_NAME};
+	server_name ${STATIC_HOST}.${DOMAIN_NAME};
 
 	ssl_certificate ${CERTS_CRT};
 	ssl_certificate_key ${CERTS_KEY};
@@ -48,7 +48,7 @@ server {
 }
 server {
 	listen 443 ssl;
-	server_name adminer.${DOMAIN_NAME};
+	server_name ${ADMINER_HOST}.${DOMAIN_NAME};
 
 	ssl_certificate ${CERTS_CRT};
 	ssl_certificate_key ${CERTS_KEY};
@@ -56,6 +56,22 @@ server {
 
 	location / {
 		proxy_pass http://${ADMINER_HOST}:${ADMINER_PORT};
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto \$scheme;
+	}
+}
+server {
+	listen 443 ssl;
+	server_name ${KUMA_HOST}.${DOMAIN_NAME};
+
+	ssl_certificate ${CERTS_CRT};
+	ssl_certificate_key ${CERTS_KEY};
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	location / {
+		proxy_pass http://${KUMA_HOST}:${KUMA_PORT};
 		proxy_set_header Host \$host;
 		proxy_set_header X-Real-IP \$remote_addr;
 		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;

@@ -17,6 +17,8 @@ services:
       - ADMINER_PORT=${ADMINER_PORT}
       - STATIC_HOST=${STATIC_HOST}
       - STATIC_PORT=${STATIC_PORT}
+      - KUMA_PORT=${KUMA_PORT}
+      - KUMA_HOST=${KUMA_HOST}
     depends_on:
       wordpress:
         condition: service_healthy
@@ -110,6 +112,20 @@ services:
       - ${REDIS_PORT}
     restart: unless-stopped
 
+  uptime-kuma:
+    build:
+      context: ./requirements/bonus/uptime-kuma
+    container_name: uptime-kuma
+    expose:
+     - ${KUMA_PORT}
+    ports:
+      - "${KUMA_PORT}:${KUMA_PORT}"
+    volumes:
+      - uptime-kuma-data:/app/data
+    networks:
+      - inception
+    restart: unless-stopped
+
 volumes:
   web:
     driver: local
@@ -123,6 +139,13 @@ volumes:
     driver_opts:
       type: none
       device: /home/dcsicsak/data/mariadb
+      o: bind
+
+  uptime-kuma-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/dcsicsak/data/uptime-kuma
       o: bind
 
 networks:
